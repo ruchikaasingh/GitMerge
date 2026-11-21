@@ -1,0 +1,2630 @@
+left_code,right_code,conflict_category,resolution_strategy,left_line_count,right_line_count,token_overlap
+"
+-                <mariadb.version>2.3.0</mariadb.version>
+-                <micrometer.version>1.1.7</micrometer.version>
++                <mariadb.version>2.4.4</mariadb.version>
++                <micrometer.version>1.3.0</micrometer.version>","
+                 <mariadb.version>2.3.0</mariadb.version>
+-                <micrometer.version>1.1.7</micrometer.version>
++                <micrometer.version>1.1.8</micrometer.version>",U vs. U (version no) L > R verseion,only left,5,4,1.0
+"
+@@ -160,7 +160,7 @@ final class RequestBuilder {
+         for (int i = 0; i < requestFormPair.length; i++) {
+           String name = requestFormPair[i];
+           if (name != null) {
+-            body.addPair(name, String.valueOf(args[i]));
++            body.addField(name, String.valueOf(args[i]));
+           }
+         }
+         return body;","
+--- a/retrofit/src/main/java/retrofit/http/RequestBuilder.java
++++ /dev/null
+",U vs. D (file),only left,10,3,0.08
+"
+         private static boolean modifyBlocksTree(MethodNode mth) {
+-                List<BlockNode> basicBlocks = mth.getBasicBlocks();
+-                for (BlockNode block : basicBlocks) {
+-                        if (block.getPredecessors().isEmpty() && block != mth.getEnterBlock()) {
+-                                throw new JadxRuntimeException(""Unreachable block: "" + block);
+-                        }
+-                }
+-
+-                for (BlockNode block : basicBlocks) {
++                for (BlockNode block : mth.getBasicBlocks()) {
+                         if (checkLoops(mth, block)) {
+                                 return true;
+                         }","
+         private static boolean modifyBlocksTree(MethodNode mth) {
+                List<BlockNode> basicBlocks = mth.getBasicBlocks();
+                for (BlockNode block : basicBlocks) {
+                        if (block.getPredecessors().isEmpty() && block != mth.getEnterBlock()) {
+                                throw new JadxRuntimeException(""Unreachable block: "" + block);
+                        }
+                }
+-
++                if (mergeExceptionHandlers(mth)) {
++                        removeMarkedBlocks(mth);
++                        return true;
++                }
+                 for (BlockNode block : basicBlocks) {
+                         if (checkLoops(mth, block)) {
+                                 return true;
+                         }
+","D U vs. D I (delete for-loop,update for-loop + insert if-Java code)",only right,14,17,0.92
+"
+                 <dependency>
+                         <groupId>org.codehaus.jackson</groupId>
+                         <artifactId>jackson-jaxrs</artifactId>
+-                        <version>1.8.1</version>
++                        <version>1.9.7</version>
+                         <scope>test</scope>
+                 </dependency>
+                 <dependency>
+                         <groupId>org.codehaus.jackson</groupId>
+                         <artifactId>jackson-smile</artifactId>
+-                        <version>1.8.1</version>
++                        <version>1.9.7</version>
+                         <scope>test</scope>
+                 </dependency>","
+                 <dependency>
+                         <groupId>org.codehaus.jackson</groupId>
+                         <artifactId>jackson-jaxrs</artifactId>
+-                        <version>1.8.1</version>
++                        <version>1.9.3</version>
+                         <scope>test</scope>
+                 </dependency>
+                 <dependency>
+                         <groupId>org.codehaus.jackson</groupId>
+                         <artifactId>jackson-smile</artifactId>
+-                        <version>1.8.1</version>
++                        <version>1.9.3</version>
+                         <scope>test</scope>
+                 </dependency>
+                 <dependency>",U vs. U (version no) L > R: The version number of L is higher,only left,15,16,1.0
+"
+-
+-    public synchronized boolean whiteContains(String sql) {
+-        if (whiteList == null) {
+-            return false;
++    
++    public void clearCache() {
++        lock.writeLock().lock();
++        try {
++            if (whiteList != null) {
++                whiteList = null;
++            }
++        } finally {
++            lock.writeLock().unlock();
+         }
++    }
+ 
+-        return whiteList.get(sql) != null;
++    public boolean whiteContains(String sql) {
++        lock.readLock().lock();
++        try {
++            if (whiteList == null) {
++                return false;
++            }
++
++            return whiteList.get(sql) != null;
++        } finally {
++            lock.readLock().unlock();
++        }
+     }","
+-    public synchronized boolean whiteContains(String sql) {
+-        if (whiteList == null) {
+-            return false;
+-        }
++    public boolean whiteContains(String sql) {
++        lock.readLock().lock();
++        try {
++            if (whiteList == null) {
++                return false;
++            }
+ 
+-        return whiteList.get(sql) != null;
++            return whiteList.get(sql) != null;
++        } finally {
++            lock.readLock().unlock();
++        }
+     }",D I vs. D I (Java code),other,30,18,0.85
+"
+   private ClusterDTO[] assembleClusters() {
+     ClusterDTO[] clusters = new ClusterDTO[2];
+-    clusters[0] = assembleCluster(100, 6666, Constants.DEFAULT_CLUSTER_NAME);
+-    clusters[1] = assembleCluster(101, 6666, ""cluster1"");
++    clusters[0] = assembleCluster(100, ""6666"", Constants.DEFAULT_CLUSTER_NAME);
++    clusters[1] = assembleCluster(101, ""6666"", ""cluster1"");
+     return clusters;
+   }","
+   private ClusterDTO[] assembleClusters() {
+     ClusterDTO[] clusters = new ClusterDTO[2];
+-    clusters[0] = assembleCluster(100, 6666, Constants.DEFAULT_CLUSTER_NAME);
++    clusters[0] = assembleCluster(100, 6666, ConfigConsts.DEFAULT_CLUSTER_NAME);
+     clusters[1] = assembleCluster(101, 6666, ""cluster1"");
+     return clusters;
+   }",U vs. U(update Java code),other,9,8,0.9091
+"
+                 <artifactId>asm-commons</artifactId>
+                 <version>7.0</version>
+             </dependency>
++            <dependency>
++                <groupId>org.ow2.asm</groupId>
++                <artifactId>asm-util</artifactId>
++                <version>7.0</version>
++            </dependency>
++            <dependency>
++                <groupId>org.ow2.asm</groupId>
++                <artifactId>asm-analysis</artifactId>
++                <version>7.0</version>
++            </dependency>
+             <dependency>
+                 <groupId>com.alibaba.middleware</groupId>
+                 <artifactId>termd-core</artifactId>","
+                 <artifactId>asm-commons</artifactId>
+                 <version>7.0</version>
+             </dependency>
++            <dependency>
++                <groupId>org.benf</groupId>
++                <artifactId>cfr</artifactId>
++                <version>0.145</version>
++            </dependency>
+             <dependency>
+                 <groupId>com.alibaba.middleware</groupId>
+                 <artifactId>termd-core</artifactId>",I vs. I(pom.xml),accept both sides,17,12,0.7059
+"
+-version=1.2.18-SNAPSHOT
++version=1.3.0-SNAPSHOT","
+-version=1.2.18-SNAPSHOT
++version=1.2.19-SNAPSHOT",U vs. U (version no) L > R,only left,3,3,1.0
+"
+--- a/library/src/main/java/com/google/android/exoplayer/util/extensions/InputBuffer.java
++++ b/library/src/main/java/com/google/android/exoplayer/util/extensions/InputBuffer.java","
+--- a/library/src/main/java/com/google/android/exoplayer/util/extensions/InputBuffer.java
++++ /dev/null",U vs. D (file),only left,3,3,0.8
+"
+@@ -2,6 +2,8 @@ package com.alibaba.easyexcel.test.temp.simple;
+ 
+ import java.io.FileInputStream;
+ import java.io.IOException;
++import java.io.InputStream;
++import java.net.URL;
+ import java.util.List;
+ 
+ import org.junit.Ignore;
+@@ -24,7 +26,18 @@ public class HgTest {
+     @Test
+     public void hh() throws IOException {
+         List<Object> list =
+-            EasyExcel.read(new FileInputStream(""""D:\\test\\折扣2007.xls"""")).headRowNumber(0).sheet().doReadSync();
++            EasyExcel.read(new FileInputStream(""""D:\\test\\嘉惠-中交建_2019-09-01_2019-09-30_1569055677522.xlsx"""")).headRowNumber(0).sheet().doReadSync();
++        for (Object data : list) {
++            LOGGER.info(""""返回数据：{}"""", JSON.toJSONString(data));
++        }
++    }
++
++    @Test
++    public void hh5() throws IOException {
++        URL url = new URL(""""http://hotelcontractfil.oss-cn-beijing.aliyuncs.com/2019/%E5%98%89%E6%83%A0-%E4%B8%AD%E4%BA%A4%E5%BB%BA_2019-09-01_2019-09-30_1569055677522.xlsx?Expires=1884415681&OSSAccessKeyId=LTAIGZDkqZfPArBr&Signature=Rf0gbO8vl3l%2Brj1KdyzHHMsUhCE%3D"""");
++        InputStream is = url.openStream();
++        List<Object> list =
++            EasyExcel.read(is).headRowNumber(0).sheet().doReadSync();
+         for (Object data : list) {
+             LOGGER.info(""""返回数据：{}"""", JSON.toJSONString(data));
+         }""","
+@@ -24,7 +24,7 @@ public class HgTest {
+     @Test
+     public void hh() throws IOException {
+         List<Object> list =
+-            EasyExcel.read(new FileInputStream(""D:\\test\\折扣2007.xls"")).headRowNumber(0).sheet().doReadSync();
++            EasyExcel.read(new FileInputStream(""D:\\test\\1.xls"")).headRowNumber(0).sheet().doReadSync();
+         for (Object data : list) {
+             LOGGER.info(""返回数据：{}"", JSON.toJSONString(data));
+         }",U I vs. U(Java code),only left,30,10,0.3676
+"
+     @Override
+     public ReturnT<String> registry(RegistryParam registryParam) {
+-        int ret = xxlJobRegistryDao.registryUpdate(registryParam.getRegistGroup(), registryParam.getRegistryKey(), registryParam.getRegistryValue());
++        int ret = xxlJobRegistryDao.registryUpdate(registryParam.getRegistryGroup(), registryParam.getRegistryKey(), registryParam.getRegistryValue());
+         if (ret < 1) {
+-            xxlJobRegistryDao.registrySave(registryParam.getRegistGroup(), registryParam.getRegistryKey(), registryParam.getRegistryValue());
++            xxlJobRegistryDao.registrySave(registryParam.getRegistryGroup(), registryParam.getRegistryKey(), registryParam.getRegistryValue());
+ 
+","
+     @Override
+     public ReturnT<String> registry(RegistryParam registryParam) {
+-        int ret = xxlJobRegistryDao.registryUpdate(registryParam.getRegistGroup(), registryParam.getRegistryKey(), registryParam.getRegistryValue());
++
++        // valid
++        if (!StringUtils.hasText(registryParam.getRegistGroup())
++                || !StringUtils.hasText(registryParam.getRegistryKey())
++                || !StringUtils.hasText(registryParam.getRegistryValue())) {
++            return new ReturnT<String>(ReturnT.FAIL_CODE, ""Illegal Argument."");
++        }
++
++        int ret = xxlJobRegistryDao.registryUpdate(registryParam.getRegistGroup(), registryParam.getRegistryKey(), registryParam.getRegistryValue(), new Date());
+         if (ret < 1) {
+-            xxlJobRegistryDao.registrySave(registryParam.getRegistGroup(), registryParam.getRegistryKey(), registryParam.getRegistryValue());
++            xxlJobRegistryDao.registrySave(registryParam.getRegistGroup(), registryParam.getRegistryKey(), registryParam.getRegistryValue(), new Date());
+",U vs. D I (Java code),only right,9,16,0.6
+"
+     val results: Seq[Seq[Span]] = traceIds.map { traceId =>
+       spans.filter(_.traceId == traceId).map { span =>
+-        val spanAnnos = annos.filter(_.traceId == span.traceId).map { anno =>
++        val spanAnnos = annos.filter(a =>
++          a.traceId == span.traceId && a.spanId == span.spanId).map { anno =>
+           val host:Option[Endpoint] = (anno.ipv4, anno.port) match {
+             case (Some(ipv4), Some(port)) => Some(Endpoint(ipv4, port.toShort, anno.serviceName))
+             case _ => None
+@@ -202,7 +203,8 @@ case class AnormStorage(db: DB, openCon: Option[Connection] = None) extends Stor
+           }
+           Annotation(anno.timestamp, anno.value, host, duration)
+         }","
+     val results: Seq[Seq[Span]] = traceIds.map { traceId =>
+       spans.filter(_.traceId == traceId).map { span =>
+-        val spanAnnos = annos.filter(_.traceId == span.traceId).map { anno =>
+-          val host:Option[Endpoint] = (anno.ipv4, anno.port) match {
+-            case (Some(ipv4), Some(port)) => Some(Endpoint(ipv4, port.toShort, anno.serviceName))
+-            case _ => None
++        val spanAnnos = annos.filter { a =>
++            a.traceId == span.traceId && a.spanId == span.spanId
+           }",D I vs. D I (scala),only right,13,10,0.7027
+"
+--- a/com/seriouscompany/business/java/fizzbuzz/packagenamingpackage/printers/NewLinePrinter.java
++++ /dev/null","
+--- a/com/seriouscompany/business/java/fizzbuzz/packagenamingpackage/printers/NewLinePrinter.java
++++ b/com/seriouscompany/business/java/fizzbuzz/packagenamingpackage/printers/NewLinePrinter.java",D vs. U (java file),only left,3,3,0.75
+"
+""
++
++   Contributors:
++      Serge Rider - initial API and implementation""","
++
++   Contributors:
++      Serge Rider - initial API and implementation
++      John Smith - German localization
++
++   Notes:
++      Any important notes (legal or implementation related)",I vs. I (insert contributors),only right,5,8,0.4118
+" 
+       this.addConnectionExecutor = createThreadPoolExecutor(config.getMaximumPoolSize(), ""Hikari connection adder (pool "" + poolName + "")"", config.getThreadFactory(), new ThreadPoolExecutor.DiscardPolicy());
+-      this.closeConnectionExecutor = createThreadPoolExecutor(4, ""Hikari connection closer (pool "" + poolName + "")"", config.getThreadFactory(), new ThreadPoolExecutor.CallerRunsPolicy());
++      this.closeConnectionExecutor = createThreadPoolExecutor(1 + (config.getMaximumPoolSize() / 2), ""Hikari connection closer (pool "" + poolName + "")"", config.getThreadFactory(), new ThreadPoolExecutor.CallerRunsPolicy());
++
++      if (config.getMetricsTrackerFactory() != null) {
++         setMetricsTrackerFactory(config.getMetricsTrackerFactory());
++      }
++      else {
++         setMetricRegistry(config.getMetricRegistry());
++      }
++
++      setHealthCheckRegistry(config.getHealthCheckRegistry());
++
++      registerMBeans(this);
++
++      checkFailFast();
+ 
+       if (config.getScheduledExecutorService() == null) {","
+-      this.addConnectionExecutor = createThreadPoolExecutor(config.getMaximumPoolSize(), ""Hikari connection adder (pool "" + poolName + "")"", config.getThreadFactory(), new ThreadPoolExecutor.DiscardPolicy());
+-      this.closeConnectionExecutor = createThreadPoolExecutor(4, ""Hikari connection closer (pool "" + poolName + "")"", config.getThreadFactory(), new ThreadPoolExecutor.CallerRunsPolicy());
++      ThreadFactory threadFactory = config.getThreadFactory();
++      this.addConnectionExecutor = createThreadPoolExecutor(config.getMaximumPoolSize(), ""Hikari connection adder (pool "" + poolName + "")"", threadFactory, new ThreadPoolExecutor.DiscardPolicy());
++      this.closeConnectionExecutor = createThreadPoolExecutor(1 + config.getMaximumPoolSize() / 2, ""Hikari connection closer (pool "" + poolName + "")"", threadFactory, new ThreadPoolExecutor.CallerRunsPolicy());
+ 
+       if (config.getScheduledExecutorService() == null) {",U I vs. D I (Java code),other,19,8,0.6667
+"
+     <parent>
+         <groupId>org.redisson</groupId>
+         <artifactId>redisson-parent</artifactId>
+-        <version>2.9.2-SNAPSHOT</version>
++        <version>3.4.2-SNAPSHOT</version>
+         <relativePath>../</relativePath>
+     </parent>","
+     <parent>
+         <groupId>org.redisson</groupId>
+         <artifactId>redisson-parent</artifactId>
+-        <version>2.9.2-SNAPSHOT</version>
++        <version>2.9.3-SNAPSHOT</version>
+         <relativePath>../</relativePath>
+     </parent>",U vs. U (pom.xml) L > R version,only left,8,8,1.0
+"
+-import static org.hamcrest.CoreMatchers.allOf;
+-import static org.hamcrest.CoreMatchers.is;
+-
+ import org.hamcrest.Description;
+ import org.hamcrest.Factory;
+ import org.hamcrest.Matcher;
+ import org.hamcrest.TypeSafeMatcher;","
+-import static org.hamcrest.CoreMatchers.allOf;
++//import static org.hamcrest.CoreMatchers.allOf;
+ import static org.hamcrest.CoreMatchers.is;",D vs. U(import),only left,8,4,0.6364
+"         <module>spring-cloud-alicloud-oss</module>
++        <module>spring-cloud-alibaba-sentinel-zuul</module>
+     </modules>","
+         <module>spring-cloud-alicloud-oss</module>
++        <module>spring-cloud-alicloud-acm</module>
++        <module>spring-cloud-alicloud-ans</module>
++        <module>spring-cloud-alicloud-schedulerx</module>
++        <module>spring-cloud-alicloud-sms</module>",I vs. I (xml),accept both sides,3,6,0.3846
+"
+   * 定时任务（待定）
+-  * 参数管理（待定）
+-  * 系统日志（待定）
++  * 参数管理
++  * 操作日志
+ * 统计管理
+   * 用户统计
+   * 订单统计","
+   * 定时任务（待定）
+-  * 参数管理（待定）
+-  * 系统日志（待定）
+-* 统计管理
++  * 操作日志
++* 配置管理
++  * 商场配置
++  * 小程序配置
++  * 运费配置
++  * 订单配置
++* 统计报表
+   * 用户统计
+   * 订单统计
+   * 商品统计",U vs. D I (md),only right,9,15,0.0
+"
+ import android.widget.RelativeLayout;
+ import android.widget.TextView;
+ 
++import com.bigkoo.pickerview.listener.CustomListener;
+ import com.bigkoo.pickerview.view.BasePickerView;
+ import com.bigkoo.pickerview.view.WheelTime;","
+ import android.widget.RelativeLayout;
+ import android.widget.TextView;
+ 
++import com.bigkoo.pickerview.lib.WheelView;
+ import com.bigkoo.pickerview.view.BasePickerView;
+ import com.bigkoo.pickerview.view.WheelTime;",I vs. I (import),accept both sides,7,7,0.7333
+"
+@@ -100,7 +100,7 @@ class ListeningToQuery extends React.Component {
+                     }
+                     self.setState({
+                         dataSource: dataSoureTmp || [],
+-                        total: data.length
++                        total: dataSoureTmp.length || 0
+                     });
+                 }
+             },","
+--- a/console/src/main/resources/static/src/pages/ConfigurationManagement/ListeningToQuery/ListeningToQuery.js
++++ /dev/null",U vs. D (JS),only right,10,3,0.0435
+"
+                             switch (v.getId()) {
+                                 case R.id.zhihu:
+                                     Matisse.from(SampleActivity.this)
+-                                            .choose(MimeType.ofAll(), false)
++                                            .choose(MimeType.ofImage(), false)
+                                             .countable(true)
+                                             .capture(true)
+                                             .captureStrategy(
+","
+                             switch (v.getId()) {
+                                 case R.id.zhihu:
+                                     Matisse.from(SampleActivity.this)
+-                                            .choose(MimeType.ofAll(), false)
++                                            .choose(MimeType.of(MimeType.GIF), true)
+                                             .countable(true)
+                                             .capture(true)
+                                             .captureStrategy(","U vs. U (expression, .choose(MimeType.ofAll(), false)...",only left,9,9,0.8636
+"
+@@ -234,6 +234,7 @@
+     <junit printsummary=""yes"" timeout=""120000"" showoutput=""true"">
+       <sysproperty key=""java.util.logging.config.file"" value=""${conf-dir}/logging.properties""/>
+       <sysproperty key=""jruby.home"" value=""${env.JRUBY_HOME}""/>
++      <sysproperty key=""vertx.mods"" value=""./src/tests/mod-test""/>
+       <classpath refid=""test-classpath""/>
+       <batchtest haltonfailure=""yes"" haltonerror=""yes"" fork=""yes"" todir=""${test-results}"">
+         <formatter type=""plain"" usefile=""yes""/>","
+@@ -234,6 +240,9 @@
+     <junit printsummary=""yes"" timeout=""120000"" showoutput=""true"">
+       <sysproperty key=""java.util.logging.config.file"" value=""${conf-dir}/logging.properties""/>
+       <sysproperty key=""jruby.home"" value=""${env.JRUBY_HOME}""/>
++      <sysproperty key=""jython.home"" value=""${env.JYTHON_HOME}""/>
++      <sysproperty key=""python.path"" value=""src/main/python:src/tests/python:src/tests/framework/python:${env.JYTHON_HOME}/Lib""/>
++      <sysproperty key=""vertx.mods"" value=""${dist-build}/mods""/>
+       <classpath refid=""test-classpath""/>
+       <batchtest haltonfailure=""yes"" haltonerror=""yes"" fork=""yes"" todir=""${test-results}"">
+         <formatter type=""plain"" usefile=""yes""/>",I vs. I (sysproperty),accept both sides,9,11,0.7917
+"
+-## 4.5.13
++## 4.5.14
+ 
+ ### 新特性
++* 【poi】          增加TableUtil
+ 
+ ### Bug修复
++* 【core】        修复ZipUtil.zlib压缩识别问题（感谢@【上海】 沙漏）","
+-## 4.5.13
++## 4.5.14
+ 
+ ### 新特性
++* 【log】           调整log模块层次结构，兼容slf4j的API（issue#IY8DX@Gitee）
++* 【core】         Convert.toXXX带默认值换成convertQuietly实现，避免异常（issue#403@Gitee）
+ 
+ ### Bug修复
++* 【log】           解决行号错误问题",I vs. I (text),accept both sides,9,10,0.1333
+"
+@@ -1,8 +1,6 @@
+ # Message Trace
+ 
+-## Introduction
+ 
+-This document focuses on how to quickly deploy and use RocketMQ clusters that support message trace features
+ 
+ ## 1. Key Attributes of Message Trace Data","
+@@ -1,10 +1,8 @@
+ # Message Trace
+ 
+-## Introduction
+-
+ This document focuses on how to quickly deploy and use RocketMQ clusters that support message trace features
+ 
+-## 1. Key Attributes of Message Trace Data
++## 1 Key Attributes of Message Trace Data",D vs. D(text),other,9,10,1.0
+"
++    void testMaxReadBytes(ObjectInspector objectInspector, Iterable<?> writeValues, Iterable<?> readValues, Type type, DataSize maxReadBlockSize)
++            throws Exception
++    {
++        assertMaxReadBytes(
++                singletonList(objectInspector),
++                new Iterable<?>[] {writeValues},
++                new Iterable<?>[] {readValues},
++                TEST_COLUMN,
++                singletonList(type),
++                Optional.empty(),
++                maxReadBlockSize);
++    }","
++    void testMaxReadBytes(ObjectInspector objectInspector, Iterable<?> writeValues, Iterable<?> readValues, Type type, DataSize maxReadBlockSize)
++            throws Exception
++    {
++        assertMaxReadBytes(singletonList(objectInspector), new Iterable<?>[] {writeValues}, new Iterable<?>[] {
++                readValues}, TEST_COLUMN, singletonList(type), Optional.empty(), maxReadBlockSize);
++    }","I vs. I (the inserted Java code partially overlap, and partially differ)",only left,13,7,1.0
+"
+-version=2.2.10
++version=3.0.0-beta.1
+ mockito.testng.version=1.0","
+-version=2.2.10
++version=2.2.12
+ mockito.testng.version=1.0",U vs. U (version no) L > R version,only left,4,4,0.75
+"
+@@ -18,6 +18,7 @@ description: Apktool - Changelog / Roadmap
+  * Fixed issue with apktool locking access to input files. ([Issue 1160](https://github.com/iBotPeaches/Apktool/issues/1160)) Thanks MarcMil
+  * Add support for animated vector drawables. ([Issue 1456](https://github.com/iBotPeaches/Apktool/issues/1456))
+  * Fixes decoding brightness. ([Issue 1508](https://github.com/iBotPeaches/Apktool/issues/1508)) Thanks phhusson
++ * Prevent unknown file decode outside of archive. ([Issue 1498](https://github.com/iBotPeaches/Apktool/issues/1498)) / Thanks mkilling
+ ","
+@@ -18,6 +18,7 @@ description: Apktool - Changelog / Roadmap
+  * Fixed issue with apktool locking access to input files. ([Issue 1160](https://github.com/iBotPeaches/Apktool/issues/1160)) Thanks MarcMil
+  * Add support for animated vector drawables. ([Issue 1456](https://github.com/iBotPeaches/Apktool/issues/1456))
+  * Fixes decoding brightness. ([Issue 1508](https://github.com/iBotPeaches/Apktool/issues/1508)) Thanks phhusson
++ * Fixes improper decoding of optical bounds in images. ([Issue 1511](https://github.com/iBotPeaches/Apktool/issues/1508)) Thanks phhusson
+ ",I vs. I (md),accept both sides,7,7,0.7143
+"
+-    public static ESLogger logger= Loggers.getLogger(""ik-analyzer"");
++    public static final ESLogger logger= Loggers.getLogger(""ik-analyzer"");","
+-    public static ESLogger logger= Loggers.getLogger(""ik-analyzer"");
+-        
++        public static ESLogger logger= Loggers.getLogger(""ik-analyzer"");
++",U vs. U (Java code),only right,3,5,0.8889
+"
+--- a/zuul-simple-webapp/src/main/groovy/filters/route/SimpleHostRequest.groovy
++++ b/zuul-simple-webapp/src/main/groovy/filters/route/SimpleHostRequest.groovy
+@@ -220,17 +220,17 @@ class SimpleHostRoutingFilter extends ZuulFilter {
+ 
+         switch (verb) {
+             case 'POST':
+-                httpRequest = new HttpPost(uri + getQueryString())
++                httpRequest = new HttpPost(uri + getSanitizedQueryString())
+                 InputStreamEntity entity = new InputStreamEntity(requestEntity, request.getContentLength())
+                 httpRequest.setEntity(entity)
+                 break
+             case 'PUT':
+-                httpRequest = new HttpPut(uri + getQueryString())
++                httpRequest = new HttpPut(uri + getSanitizedQueryString())
+                 InputStreamEntity entity = new InputStreamEntity(requestEntity, request.getContentLength())
+                 httpRequest.setEntity(entity)
+                 break;
+             default:
+-                httpRequest = new BasicHttpRequest(verb, uri + getQueryString())
++                httpRequest = new BasicHttpRequest(verb, uri + getSanitizedQueryString())
+         }
+ 
+         try {
+@@ -250,10 +250,21 @@ class SimpleHostRoutingFilter extends ZuulFilter {
+         return httpclient.execute(httpHost, httpRequest);
+     }
+ 
++    String getSanitizedQueryString() {
++        String encoding = ""UTF-8""
++        String currentQueryString = getQueryString()
++        if (currentQueryString.equals("""")) {
++            return """"
++        }
++
++        String decodedQueryString = URLDecoder.decode(currentQueryString, encoding)
++        return new URI(null, null, null, decodedQueryString, null).toString()
++    }
++
+     String getQueryString() {
+         HttpServletRequest request = RequestContext.currentContext.getRequest();
+         String query = request.getQueryString()
+-        return (query != null) ? ""?${query}"" : """";
++        return (query != null) ? query : """";
+     }
+ 
+     HttpHost getHttpHost() {","
+--- a/zuul-simple-webapp/src/main/groovy/filters/route/SimpleHostRequest.groovy
++++ /dev/null",U vs. D (file),only right,47,3,0.1864
+"
+     public void disconnect() throws IOException {
+         for (JedisShardInfo jedis : getAllShards()) {
++            jedis.getResource().quit();
+             jedis.getResource().disconnect();
+         }
+     }
+ ","-    public void disconnect() throws IOException {
+-        for (JedisShardInfo jedis : getAllShards()) {
+-            jedis.getResource().disconnect();
+-        }
+-    }
+",I vs. D (Java code inside method disconnect()),only left,8,5,0.9091
+"
+--- a/src/main/java/com/github/pagehelper/util/BaseSqlUtil.java
++++ b/src/main/java/com/github/pagehelper/util/BaseSqlUtil.java
+@@ -1,7 +1,6 @@
+ package com.github.pagehelper.util;
+ 
+ import com.github.pagehelper.Page;
+-import com.github.pagehelper.PageRowBounds;
+ import com.github.pagehelper.cache.Cache;
+ import com.github.pagehelper.cache.CacheFactory;
+ import com.github.pagehelper.dialect.*;
+@@ -39,7 +38,7 @@ public class BaseSqlUtil {
+         //注册别名
+         dialectAliasMap.put(""hsqldb"", HsqldbDialect.class);
+         dialectAliasMap.put(""h2"", HsqldbDialect.class);
+-        dialectAliasMap.put(""postgreSQL"", HsqldbDialect.class);
++        dialectAliasMap.put(""postgresql"", HsqldbDialect.class);
+ 
+         dialectAliasMap.put(""mysql"", MySqlDialect.class);
+         dialectAliasMap.put(""mariadb"", MySqlDialect.class);
+@@ -51,6 +50,7 @@ public class BaseSqlUtil {
+ 
+         dialectAliasMap.put(""sqlserver"", SqlServerDialect.class);
+         dialectAliasMap.put(""sqlserver2012"", SqlServer2012Dialect.class);
++        dialectAliasMap.put(""derby"", SqlServer2012Dialect.class);
+     }
+ 
+     //缓存count查询的ms
+@@ -68,7 +68,7 @@ public class BaseSqlUtil {
+ 
+     public static String fromJdbcUrl(String jdbcUrl) {
+         for (String dialect : dialectAliasMap.keySet()) {
+-            if (jdbcUrl.indexOf("":"" + dialect + "":"") != -1) {
++            if (jdbcUrl.indexOf("":"" + dialect.toLowerCase() + "":"") != -1) {
+                 return dialect;
+             }
+         }
+@@ -271,11 +271,6 @@ public class BaseSqlUtil {
+                     //offsetAsPageNum=false的时候，由于PageNum问题，不能使用reasonable，这里会强制为false
+                     page.setReasonable(false);
+                 }
+-                if (rowBounds instanceof PageRowBounds) {
+-                    page.setCount(true);
+-                } else {
+-                    page.setCount(false);
+-                }
+             } else {
+                 try {
+                     page = getPageFromObject(parameterObject);
+diff --git a/src/test/java/com/github/pagehelper/mapper/CountryMapper.xml b/src/test/java/com/github/pagehelper/mapper/CountryMapper.xml
+index abef76c..fc4312d 100644","
+--- a/src/main/java/com/github/pagehelper/util/BaseSqlUtil.java
++++ /dev/null",U vs. D (file),only right,51,3,0.1304
+"
+ import com.google.common.collect.Table;
+ import org.apache.http.HttpHost;
+ 
++import us.codecraft.webmagic.proxy.Proxy;
++import us.codecraft.webmagic.proxy.SimpleProxyPool;
+ import us.codecraft.webmagic.proxy.ProxyPool;
+ import us.codecraft.webmagic.utils.UrlUtils;","
+ import com.google.common.collect.Table;
+ import org.apache.http.HttpHost;
+ 
++import org.apache.http.auth.UsernamePasswordCredentials;
+ import us.codecraft.webmagic.proxy.ProxyPool;
+ import us.codecraft.webmagic.utils.UrlUtils;",I vs. I (import),accept both sides,8,7,0.85
+"
+   <properties>
+     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+-    <maven.compiler.source>1.8</maven.compiler.source>
+-    <maven.compiler.target>1.8</maven.compiler.target>
++    <maven.compiler.release>11</maven.compiler.release>
+   </properties>","
+   <properties>
+     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+-    <maven.compiler.source>1.8</maven.compiler.source>
+-    <maven.compiler.target>1.8</maven.compiler.target>
++    <!-- Use <maven.compiler.release> instead when migrating to JDK 11. -->
++    <maven.compiler.source>8</maven.compiler.source>
++    <maven.compiler.target>8</maven.compiler.target>
+   </properties>",D U vs. D I (properties) L > R version,only left,8,10,0.6667
+"
+-    @Override public String[] getSelectors() { return appendSelectors(""*:file:*.zip"", ""*:file:*.jar"", ""*:file:*.war"", ""*:file:*.ear"", ""*:file:*.aar"", ""*:file:*.jmod""); }
++    @Override public String[] getSelectors() { return appendSelectors(""*:file:*.zip"", ""*:file:*.jar"", ""*:file:*.war"", ""*:file:*.ear"", ""*:file:*.aar"", ""*:file:*.jmod"", ""*:file:*.kar""); }
+ ","
+-    @Override public String[] getSelectors() { return appendSelectors(""*:file:*.zip"", ""*:file:*.jar"", ""*:file:*.war"", ""*:file:*.ear"", ""*:file:*.aar"", ""*:file:*.jmod""); }
++    @Override public String[] getSelectors() { return appendSelectors(""*:file:*.zip"", ""*:file:*.jar"", ""*:file:*.war"", ""*:file:*.ear"", ""*:file:*.aar""); }
+ ",U vs. U (distinct update on the same Java code),other,4,4,0.9286
+"
+-    SELECT_BY_ID(""selectById"", ""根据ID 查询一条数据"", ""SELECT %s FROM %s WHERE %s=#{%s}""),
+-    SELECT_BY_MAP(""selectByMap"", ""根据columnMap 查询一条数据"", ""<script>\nSELECT %s FROM %s %s\n</script>""),
+-    SELECT_BATCH_BY_IDS(""selectBatchIds"", ""根据ID集合，批量查询数据"", ""<script>\nSELECT %s FROM %s WHERE %s IN (%s)\n</script>""),
+-    SELECT_ONE(""selectOne"", ""查询满足条件一条数据"", ""<script>\nSELECT %s FROM %s %s %s\n</script>""),
+-    SELECT_COUNT(""selectCount"", ""查询满足条件总记录数"", ""<script>\nSELECT COUNT(%s) FROM %s %s %s\n</script>""),
+-    SELECT_LIST(""selectList"", ""查询满足条件所有数据"", ""<script>\nSELECT %s FROM %s %s %s\n</script>""),
+-    SELECT_PAGE(""selectPage"", ""查询满足条件所有数据（并翻页）"", ""<script>\nSELECT %s FROM %s %s %s\n</script>""),
+-    SELECT_MAPS(""selectMaps"", ""查询满足条件所有数据"", ""<script>\nSELECT %s FROM %s %s %s\n</script>""),
+-    SELECT_MAPS_PAGE(""selectMapsPage"", ""查询满足条件所有数据（并翻页）"", ""<script>\nSELECT %s FROM %s %s %s\n</script>""),
+-    SELECT_OBJS(""selectObjs"", ""查询满足条件所有数据"", ""<script>\nSELECT %s FROM %s %s %s\n</script>""),
++    SELECT_BY_ID(""selectById"", ""根据ID 查询一条数据"", "" %s SELECT %s FROM %s WHERE %s=#{%s}""),
++    SELECT_BY_MAP(""selectByMap"", ""根据columnMap 查询一条数据"", ""<script>\n %s SELECT %s FROM %s %s\n</script>""),
++    SELECT_BATCH_BY_IDS(""selectBatchIds"", ""根据ID集合，批量查询数据"", ""<script>\n %s SELECT %s FROM %s WHERE %s IN (%s)\n</script>""),
++    SELECT_ONE(""selectOne"", ""查询满足条件一条数据"", ""<script>\n %s SELECT %s FROM %s %s %s\n</script>""),
++    SELECT_COUNT(""selectCount"", ""查询满足条件总记录数"", ""<script>\n %s SELECT COUNT(%s) FROM %s %s %s\n</script>""),
++    SELECT_LIST(""selectList"", ""查询满足条件所有数据"", ""<script>\n %s SELECT %s FROM %s %s %s\n</script>""),
++    SELECT_PAGE(""selectPage"", ""查询满足条件所有数据（并翻页）"", ""<script>\n %s SELECT %s FROM %s %s %s\n</script>""),
++    SELECT_MAPS(""selectMaps"", ""查询满足条件所有数据"", ""<script>\n %s SELECT %s FROM %s %s %s\n</script>""),
++    SELECT_MAPS_PAGE(""selectMapsPage"", ""查询满足条件所有数据（并翻页）"", ""<script>\n %s SELECT %s FROM %s %s %s\n</script>""),
++    SELECT_OBJS(""selectObjs"", ""查询满足条件所有数据"", ""<script>\n %s SELECT %s FROM %s %s %s\n</script>""),
+","
+-    SELECT_BY_ID(""selectById"", ""根据ID 查询一条数据"", ""SELECT %s FROM %s WHERE %s=#{%s}""),
+-    SELECT_BY_MAP(""selectByMap"", ""根据columnMap 查询一条数据"", ""<script>\nSELECT %s FROM %s %s\n</script>""),
+-    SELECT_BATCH_BY_IDS(""selectBatchIds"", ""根据ID集合，批量查询数据"", ""<script>\nSELECT %s FROM %s WHERE %s IN (%s)\n</script>""),
+-    SELECT_ONE(""selectOne"", ""查询满足条件一条数据"", ""<script>\nSELECT %s FROM %s %s %s\n</script>""),
+-    SELECT_COUNT(""selectCount"", ""查询满足条件总记录数"", ""<script>\nSELECT COUNT(%s) FROM %s %s %s\n</script>""),
+-    SELECT_LIST(""selectList"", ""查询满足条件所有数据"", ""<script>\nSELECT %s FROM %s %s %s\n</script>""),
+-    SELECT_PAGE(""selectPage"", ""查询满足条件所有数据（并翻页）"", ""<script>\nSELECT %s FROM %s %s %s\n</script>""),
+-    SELECT_MAPS(""selectMaps"", ""查询满足条件所有数据"", ""<script>\nSELECT %s FROM %s %s %s\n</script>""),
+-    SELECT_MAPS_PAGE(""selectMapsPage"", ""查询满足条件所有数据（并翻页）"", ""<script>\nSELECT %s FROM %s %s %s\n</script>""),
+-    SELECT_OBJS(""selectObjs"", ""查询满足条件所有数据"", ""<script>\nSELECT %s FROM %s %s %s\n</script>""),
++    SELECT_BY_ID(""selectById"", ""根据ID 查询一条数据"", "" %s SELECT %s FROM %s WHERE %s=#{%s}""),
++    SELECT_BY_MAP(""selectByMap"", ""根据columnMap 查询一条数据"", ""<script>\n %s SELECT %s FROM %s %s\n</script>""),
++    SELECT_BATCH_BY_IDS(""selectBatchIds"", ""根据ID集合，批量查询数据"", ""<script>\n %s SELECT %s FROM %s WHERE %s IN (%s)"" +
++            ""\n</script>""),
++    SELECT_ONE(""selectOne"", ""查询满足条件一条数据"", ""<script>\n %s SELECT %s FROM %s %s %s\n</script>""),
++    SELECT_COUNT(""selectCount"", ""查询满足条件总记录数"", ""<script>\n %s SELECT COUNT(%s) FROM %s %s %s\n</script>""),
++    SELECT_LIST(""selectList"", ""查询满足条件所有数据"", ""<script>\n %s SELECT %s FROM %s %s %s\n</script>""),
++    SELECT_PAGE(""selectPage"", ""查询满足条件所有数据（并翻页）"", ""<script>\n %s SELECT %s FROM %s %s %s\n</script>""),
++    SELECT_MAPS(""selectMaps"", ""查询满足条件所有数据"", ""<script>\n %s SELECT %s FROM %s %s %s\n</script>""),
++    SELECT_MAPS_PAGE(""selectMapsPage"", ""查询满足条件所有数据（并翻页）"", ""<script>\n %s SELECT %s FROM %s %s %s\n</script>""),
++    SELECT_OBJS(""selectObjs"", ""查询满足条件所有数据"", ""<script>\n %s SELECT %s FROM %s %s %s\n</script>""),
+",U vs. D I  (SQL expression),only left,21,22,1.0
+"
+--- a/src/test/java/com/squareup/javawriter/ParameterWriterTest.java
++++ /dev/null","
+--- a/src/test/java/com/squareup/javawriter/ParameterWriterTest.java
++++ b/src/test/java/com/squareup/javawriter/ParameterWriterTest.java",D vs. U (Java file),only left,3,3,0.7273
+"
+         public static String id() {
+-                return ""4.10-SNAPSHOT"";
++                return ""4.11-SNAPSHOT"";
+         }","
+         public static String id() {
+-                return ""4.10-SNAPSHOT"";
++                return ""4.10"";
+         }",U vs. U (Java code) L > R version,only left,5,5,1.0
+"
+   <groupId>org.jsoup</groupId>
+   <artifactId>jsoup</artifactId>
+-  <version>1.6.4-SNAPSHOT</version>
++  <version>1.7.2-SNAPSHOT</version>
+   <description>jsoup HTML parser</description>
+   <url>http://jsoup.org/</url>
+   <inceptionYear>2009</inceptionYear>","
+   <groupId>org.jsoup</groupId>
+   <artifactId>jsoup</artifactId>
+-  <version>1.6.4-SNAPSHOT</version>
++  <version>1.6.4a-SNAPSHOT</version>
+   <description>jsoup HTML parser</description>","U vs. U (version no., xml) L > R version",only left,8,6,0.6923
+"
+     public Boolean getRunOnSlave() {
+-                return runOnSlave;
+-        }
++        return runOnSlave;
++    }
+ 
+-        public void setRunOnSlave(Boolean runOnSlave) {
+-                this.runOnSlave = runOnSlave;
+-        }
+-          private Procedure procedure;
++    public void setRunOnSlave(Boolean runOnSlave) {
++        this.runOnSlave = runOnSlave;
++    }","
+         public Boolean getRunOnSlave() {
+                 return runOnSlave;
+         }
++        public String getRunOnSlaveDebugInfo() {
++                return runOnSlave == null?"" default "":Boolean.toString(runOnSlave);
++        }",D I vs. I(Java code),other,14,7,0.3333
+"
+@@ -1,8 +1,8 @@
+ <idea-plugin>
+-    <id>com.chrisrm.idea.MaterialThemeUIFork</id>
+-    <name>Material Theme UI EAP</name>
+-    <version>0.4.4</version>
+-    <vendor email=""heliosaian@gmail.com"" url=""https://github.com/mallowigi"">Mallowigi</vendor>
++    <id>com.chrisrm.idea.MaterialThemeUI</id>
++    <name>Material Theme UI</name>
++    <version>0.4.4.1</version>
++    <vendor email=""chris@hirvi.no"" url=""https://hirvi.no"">Hirvi AS</vendor>
+ ","
+@@ -1,7 +1,7 @@
+ <idea-plugin>
+     <id>com.chrisrm.idea.MaterialThemeUIFork</id>
+     <name>Material Theme UI EAP</name>
+-    <version>0.4.4</version>
++    <version>0.5.0.5</version>
+     <vendor email=""heliosaian@gmail.com"" url=""https://github.com/mallowigi"">Mallowigi</vendor>
+ ",U vs. U,other,12,9,0.8
+"
+--- a/rxlifecycle-navi/src/main/java/com/trello/rxlifecycle2/navi/NaviLifecycle.java
++++ /dev/null","
+ 
+ import static com.trello.rxlifecycle2.internal.Preconditions.checkNotNull;
+ 
++@Deprecated
++/**
++ * @Deprecated switch to using rxlifecycle-android-lifecycle
++ */
+ public final class NaviLifecycle {
+ 
+     @NonNull",D vs. U (file),only left,3,11,0.1852
+"
+   protected boolean conservative;
+   protected int tableMask;
+   protected long[] table;
++  int step =1;","
+   protected boolean conservative;
+   protected int tableMask;
+   protected long[] table;
++  protected int step = 1;",I vs. I (Java code),only left,5,5,1.0
+"
+ 
+-                        Analyzer a = new Analyzer(new BasicInterpreter());
+-                        try {
+-                                a.analyze(method.getOwner(), methodNode);
+-                        } catch (AnalyzerException e) {
+-                                throw new RuntimeException(""fail on "" + method, e);
+-                        }
+-                        Frame[] fs = a.getFrames();
++//                        Analyzer a = new Analyzer(new BasicInterpreter());
++//                        try {
++//                                a.analyze(method.getOwner(), methodNode);
++//                        } catch (AnalyzerException e) {
++//                                throw new RuntimeException(""fail on "" + method, e);
++//                        }
++//                        Frame[] fs = a.getFrames();
+ 
+                         methodNode.accept(new LocalVariablesSorter(method.getAccessFlags(), method.getType().getDesc(), new LdcOptimizeAdapter(mv)));
+","
+          * 
+          * @see pxb.android.dex2jar.visitors.DexMethodVisitor#visitEnd()
+          */
++        @SuppressWarnings(""unchecked"")
+         public void visitEnd() {
+                 build();
+                 if (mv != null) {
+                         if (methodNode.instructions.size() > 2) {
+-                                MethodTransformer tr = new MethodTransformerAdapter(null);
+-                                tr = new B(method, tr);
+-                                tr = new A(tr);
+-                                tr.transform(methodNode);
+-                        }
+-
+-                        Analyzer a = new Analyzer(new BasicInterpreter());
+-                        try {
+-                                a.analyze(method.getOwner(), methodNode);
+-                        } catch (AnalyzerException e) {
+-                                throw new RuntimeException(""fail on "" + method, e);
++                                List<? extends MethodTransformer> trs = Arrays.asList(new A(), new B(method), new C(method));
++                                for (MethodTransformer tr : trs) {
++                                        tr.transform(methodNode);
++                                }
+                         }
+-                        Frame[] fs = a.getFrames();
+-
+-                        methodNode.accept(new LocalVariablesSorter(method.getAccessFlags(), method.getType().getDesc(), new LdcOptimizeAdapter(mv)));
+-
+                 }",U vs. D I (Java code),only right,18,30,0.4815
+"
+ package org.hswebframework.web.workflow.flowable;
+ 
++import org.hswebframework.web.service.organizational.RelationDefineService;
++import org.springframework.beans.factory.annotation.Autowired;
+ import org.springframework.boot.SpringApplication;
+ import org.springframework.boot.autoconfigure.SpringBootApplication;
+ 
+@@ -10,6 +12,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
+  */
+ @SpringBootApplication
+ public class TestApplication {
++    @Autowired
++    RelationDefineService relationDefineService;
+ 
+     public static void main(String[] args) {
+         SpringApplication.run(TestApplication.class, args);","
+--- a/hsweb-system/hsweb-system-workflow/hsweb-system-workflow-flowable/src/test/java/org/hswebframework/web/workflow/flowable/TestApplication.java
++++ /dev/null",U vs. D (file),only left,17,3,0.1667
+"
+      * @param size  the number of samples to keep in the sampling reservoir
+      * @param alpha the exponential decay factor; the higher this is, the more biased the reservoir
+      *              will be towards newer values
++     * @param clock the clock used to timestamp samples and track rescaling
+      */","
+      * @param size  the number of samples to keep in the sampling reservoir
+      * @param alpha the exponential decay factor; the higher this is, the more biased the reservoir
+      *              will be towards newer values
++     * @param clock the {@link Clock} to use
+      */
+     public ExponentiallyDecayingReservoir(int size, double alpha, Clock clock) {",I vs. I(JavaDoc),only left,6,7,0.7027
+"
+                         } else {
+-                                throw new RuntimeException( ""unkonow scheme"" + scheme );
++                                throw new RuntimeException( ""unknown scheme"" + scheme );
+                         }","
+                         } else {
+-                                throw new RuntimeException( ""unkonow scheme"" + scheme );
++                                throw new RuntimeException( ""unknown scheme: "" + scheme );
+                         }",U vs. U (Java code),only right,5,5,1.0
+diff,deleted,U vs. D (jar),only left,1,1,0.0
+"
+     if (o == null || getClass() != o.getClass()) {
+       return false;
+     }
+-    return true;
++    LinkParameters linkParameters = (LinkParameters) o;
++    return Objects.equals(this.extensions, linkParameters.extensions);
+   }
+ 
+   @Override
+   public int hashCode() {
+-    return Objects.hash();
++    return Objects.hash(extensions);
+   }
+ ","
+--- a/modules/swagger-models/src/main/java/io/swagger/oas/models/links/LinkParameters.java
++++ /dev/null
+",U vs. D (file),only right,15,3,0.0714
+"
+-#### 特征
+-- 统一JSON响应结果封装、生成工具快速生成
++### 特征&提供
++- 最佳实践的项目结构、配置文件及精简的Maven依赖
++- 统一响应结果封装及生成工具
+ - 统一异常处理
+ - 常用基础方法抽象封装
+-- 基于通用Mapper插件、PageHelper实现单表业务零SQL
+-- Model、Mapper、MapperXML、Service、Controller使用代码生成器利用模板直接生成，可根据自己的业务定制模板，摆脱重复劳动
++- 集成MyBatis、通用Mapper插件、PageHelper分页插件，实现单表业务零SQL（相关使用文档在最下面有地址)
++- 提供代码生成器根据表名生成对应的Model、Mapper、MapperXML、Service、ServiceImpl、Controller（默认提供post和rest两套Controller模板)等基础代码，代码模板可根据实际项目的需求来定制，以便渐少重复劳动（由于每个公司业务都不太一样，所以只提供了一些简单的通用方法模板，主要是提供一个思路来减少重复代码的编写，在我们公司的使用中，其实根据业务的抽象编写了大量的代码模板，下次再做类似的项目几天就完工了)
+ - 另有彩蛋，待你探索","
+-#### 特征
+-- 统一JSON响应结果封装、生成工具快速生成
++### 特征&提供
++- 最佳实践的项目结构、配置文件及精简的Maven依赖
++- 统一响应结果封装及生成工具
+ - 统一异常处理
+ - 常用基础方法抽象封装
+-- 基于通用Mapper插件、PageHelper实现单表业务零SQL
+-- Model、Mapper、MapperXML、Service、Controller使用代码生成器利用模板直接生成，可根据自己的业务定制模板，摆脱重复劳动
++- 集成MyBatis、通用Mapper插件、PageHelper分页插件，实现单表业务零SQL（相关使用文档在最下面有地址)
++- 提供代码生成器根据表名生成对应的Model、Mapper、MapperXML、Service、ServiceImpl、Controller（默认提供post和rest两套Controller模板)等基础代码，代码模板可根据实际项目的需求来定制，以便渐少重复劳动（由于每个公司业务都不太一样，所以只提供了一些简单的通用方法模板，主要是提供一个思路来减少重复代码的编写，在我们公司的使用中，其实根据业务的抽象编写了大量的代码模板，下次再做类似的项目几天就完工了)
+ - 另有彩蛋，待你探索",D I vs. D I(Java comment),only left,13,13,1.0
+"
+     String getCompressionAlgorithm();
+ 
+     /**
+-     * Sets the JWT <code>calg</code> (Compression Algorithm) header parameter value. A {@code null} value will remove
++     * Sets the JWT  <a href=""https://tools.ietf.org/html/rfc7516#section-4.1.3""><code>zip</code></a>
++     * (Compression Algorithm) header parameter value. A {@code null} value will remove
+      * the property from the JSON map.
+-     * <p>
+-     * <p>The compression algorithm is NOT part of the <a href=""https://tools.ietf.org/html/draft-ietf-oauth-json-web-token-25>JWT specification</a>
+-     * and must be used carefully since, is not expected that other libraries (including previous versions of this one)
+-     * be able to deserialize a compressed JTW body correctly. </p>
+      *
+-     * @param calg the JWT compression algorithm {@code calg} value or {@code null} to remove the property from the JSON map.
++     * <h5>Compatiblity Note</h5>
++     *
++     * <p>While the JWT family of specifications only defines the <code>zip</code> header in the JWE
++     * (JSON Web Encryption) specification, JJWT will also support compression for JWS as well if you choose to use it.
++     * However, be aware that <b>if you use compression when creating a JWS token, other libraries may not be able to
++     * parse the JWS</b>. However, Compression when creating JWE tokens should be universally accepted for any library
++     * that supports JWE.</p>
++     *
++     * @param zip the JWT compression algorithm {@code zip} value or {@code null} to remove the property from the
++     *  JSON map.
+      * @since 0.6.0
+      */
+-    T setCompressionAlgorithm(String calg);
++    T setCompressionAlgorithm(String zip);","
+@@ -120,7 +120,7 @@ public interface Header<T extends Header<T>> extends Map<String,Object> {
+      * Sets the JWT <code>calg</code> (Compression Algorithm) header parameter value. A {@code null} value will remove
+      * the property from the JSON map.
+      * <p>
+-     * <p>The compression algorithm is NOT part of the <a href=""https://tools.ietf.org/html/draft-ietf-oauth-json-web-token-25>JWT specification</a>
++     * <p>The compression algorithm is NOT part of the <a href=""https://tools.ietf.org/html/draft-ietf-oauth-json-web-token-25"">JWT specification</a>
+      * and must be used carefully since, is not expected that other libraries (including previous versions of this one)
+      * be able to deserialize a compressed JTW body correctly. </p>",D I vs. U (comment),other,28,9,0.5472
+"
+         {
+             //todo: support different lang script
+-            builder.script(((MethodField)kvValue.value).getParams().get(1).toString());
++            builder.script(new Script(((MethodField)kvValue.value).getParams().get(1).toString()));
+         }
+     }","
++        if(kvValue.key!=null && kvValue.key.equals(""script"") ){
+             //todo: support different lang script
+-            builder.script(((MethodField)kvValue.value).getParams().get(1).toString());
++           return builder.script(((MethodField)kvValue.value).getParams().get(1).toString());
+         }
+",U vs. U (Java code),other,7,6,0.6667
+"
+ import java.util.UUID;
+ import java.util.concurrent.BlockingQueue;
+ import java.util.concurrent.LinkedBlockingQueue;
++import java.util.concurrent.TimeUnit;
+ import java.util.concurrent.atomic.AtomicLong;","
+ import java.nio.ByteBuffer;
+ import java.util.UUID;
+ import java.util.concurrent.BlockingQueue;
++import java.util.concurrent.CountDownLatch;
+ import java.util.concurrent.LinkedBlockingQueue;
++import java.util.concurrent.TimeUnit;
++import java.util.concurrent.atomic.AtomicInteger;
+ import java.util.concurrent.atomic.AtomicLong;",I vs. I (import),only right,6,9,0.7143
+"
+         jobEventRdbSearch = mock(Optional.class);
+-        CloudJobRestfulApi.init(schedulerDriver, regCenter, jobEventRdbSearch);
+         server = new RestfulServer(19000);","
+-        jobEventRdbSearch = mock(Optional.class);
+-        CloudJobRestfulApi.init(schedulerDriver, regCenter, jobEventRdbSearch);
++        jobEventRdbSearch = mock(JobEventRdbSearch.class);
++        CloudJobRestfulApi.init(schedulerDriver, regCenter);
+         server = new RestfulServer(19000);",D vs. U (Java code) R include L,other,4,6,1.0
+"
+-version=7.0.0-SNAPSHOT
++version=8.0.0-SNAPSHOT","
+-version=7.0.0-SNAPSHOT",U vs. D (version no.) L includes R,only right,3,2,1.0
+"
+         LINE_JOINER.join(
+-            ""goog.provide('module$test');"",
+-            ""var module$test = {foo: 'bar'};""));
++            ""!function(){"",
++            ""var foobar = {foo: 'bar'};"",
++            ""if (typeof module === 'object' && module.exports) {"",
++            ""  module.exports = foobar;"",
++            ""} else if (typeof define === 'function' && define.amd) {"",
++            ""  define([], function() {return foobar;});"",
++            ""} else {"",
++            ""  this.foobar = foobar;"",
++            ""}}()""),
++        ""var module$test = {foo: 'bar'};"");
+","
+-        LINE_JOINER.join(
+-            ""goog.provide('module$test');"",
+-            ""var module$test = {foo: 'bar'};""));
++        ""var module$test = {foo: 'bar'};"");",D I vs. D U(Java code),only left,14,5,0.45
+"
+@@ -17,6 +17,8 @@
+ package com.weibo.api.motan.config.springsupport;
+ 
+ import java.util.ArrayList;
++import java.util.List;
++import java.util.Map;
+ 
+ import org.apache.commons.lang3.StringUtils;","
+@@ -17,6 +17,7 @@
+ package com.weibo.api.motan.config.springsupport;
+ 
+ import java.util.ArrayList;
++import java.util.Arrays;
+ 
+ import org.apache.commons.lang3.StringUtils;",I vs. I (import),other,9,8,0.8421
+"
+@@ -279,15 +224,12 @@ public class MyStaticValue {
+         try {
+             long start = System.currentTimeMillis();
+             LIBRARYLOG.info(""begin init crf model!"");
+-            crfSplitWord = new SplitWord(Model.loadModel(DicReader.getInputStream(""crf/crf.model"")));
++            crfSplitWord = new SplitWord(Model.loadModel(AnsjUtils.getInputStream(""crf/crf.model"")));
+             LIBRARYLOG.info(""load crf crf use time:"" + (System.currentTimeMillis() - start));
+-        } catch (Exception e) {
+-            e.printStackTrace();
+         } finally {
+             LOCK.unlock();
+         }
+ 
+         return crfSplitWord;
+     }","
+@@ -279,7 +284,7 @@ public class MyStaticValue {
+         try {
+             long start = System.currentTimeMillis();
+             LIBRARYLOG.info(""begin init crf model!"");
+-            crfSplitWord = new SplitWord(Model.loadModel(DicReader.getInputStream(""crf/crf.model"")));
++            crfSplitWord = new SplitWord(Model.loadModel(IOUtil.getInputStream(crfModel)));
+             LIBRARYLOG.info(""load crf crf use time:"" + (System.currentTimeMillis() - start));
+         } catch (Exception e) {
+             e.printStackTrace();",U vs. U (Java code),only right,16,10,0.7941
+"
+--- a/library/src/main/java/com/evernote/android/job/util/JobApi.java
++++ /dev/null","
+--- a/library/src/main/java/com/evernote/android/job/util/JobApi.java
++++ b/library/src/main/java/com/evernote/android/job/util/JobApi.java",D vs. U (java file),only left,3,3,0.7857
+"
+     private Thread myThread;
+-    private TempFileManagerFactory tempFileManagerFactory;
+-    private AsyncRunner asyncRunner;
++    /**
++     * Pseudo-Parameter to use to store the actual query string in the parameters map for later re-processing.
++     */
++    private static final String QUERY_STRING_PARAMETER = ""NanoHttpd.QUERY_STRING"";
+ 
+     /**
+      * Constructs an HTTP server on given port.","
+     private Thread myThread;
++    /**
++     * Pluggable strategy for creating and cleaning up temporary files.
++     */
+     private TempFileManagerFactory tempFileManagerFactory;
++    /**
++     * Pluggable strategy for asynchronously executing requests.
++     */
+     private AsyncRunner asyncRunner;
++    /**
++     * Pseudo-Parameter to use to store the actual query string in the parameters map for later re-processing.
++     */
++    private static final String QUERY_STRING_PARAMETER = ""NanoHttpd.QUERY_STRING"";
+ 
+     /**
+      * Constructs an HTTP server on given port.",D vs. I (Java code),only left,11,17,0.75
+"
+@@ -48,6 +48,11 @@ public interface UserInfoMapper extends Mapper<UserInfo> {
+ 
+ 通过[使用Mapper专用的MyBatis生成器插件](http://git.oschina.net/free/Mapper/blob/master/wiki/mapper3/7.UseMBG.md)可以直接生成符合要求带注解的实体类。
+ 
++###重点强调`@Transient`注解
++
++许多人由于不仔细看文档，频繁在这个问题上出错。
++
++如果你的实体类中包含了不是数据库表中的字段，你需要给这个字段加上`@Transient`注解，这样通用Mapper在处理单表操作时就不会将标注的属性当成表字段处理！
+ <br><br><br><br>
+ 
+ <br><br><br><br>","
+@@ -48,6 +48,12 @@ public interface UserInfoMapper extends Mapper<UserInfo> {
+ 
+ 通过[使用Mapper专用的MyBatis生成器插件](http://git.oschina.net/free/Mapper/blob/master/wiki/mapper3/7.UseMBG.md)可以直接生成符合要求带注解的实体类。
+ 
++
++###重点强调`@Transient`注解
++
++许多人由于不仔细看文档，频繁在这个问题上出错。
++
++如果你的实体类中包含了不是数据库表中的字段，你需要给这个字段加上`@Transient`注解，这样通用Mapper在处理单表操作时就不会将标注的属性当成表字段处理！
+ <br><br><br><br>
+ 
+ <br><br><br><br>",I vs. I(Java code) L is semantically equivalent to R,only left,13,14,1.0
+"
+--- /dev/null
++++ b/disconf-demos/disconf-standalone-dubbo-demo/.gitignore
+@@ -0,0 +1,8 @@
++/.settings
++/target
++/log
++/disconf
++/bin
++/.DS_Store
++/.project
++/.classpath","
+--- /dev/null
++++ b/disconf-demos/disconf-standalone-dubbo-demo/.gitignore
+@@ -0,0 +1,8 @@
++/.settings
++/target
++/.classpath
++/.project
++/.DS_Store
++/disconf
++/log
++/bin",I vs. I (file) L and R semantically equivalent,only right,12,12,1.0
+"
++      InjectMoreThanOneInjectableConstructor.class
+   );","
++      InjectJavaxInjectOnFinalField.class,
++      GuiceInjectOnFinalField.class",I vs. I(Java code),accept both sides,3,3,0.25
+"
++* Rami Baksansky
+ * Dimitrij Drus
+ * Arno Puder
+ * SpaceBison
++* Mike Woudenberg
++* Tobias Preuss
++* Max Myslyvtsev","
+ * Dimitrij Drus
+ * Arno Puder
+ * SpaceBison
++* Tobias Preuss",I vs. I(contributors),only left,8,5,0.5385
+"
+@@ -16,7 +16,7 @@
+ 
+ 
+ 
+-checkstyle {
++/*checkstyle {
+     // lambdas break checkstyle currently. Grrrr!
+     ignoreFailures = true
+-}
++}*/","
+  */
+-
+-
+-
+-checkstyle {
+-    // lambdas break checkstyle currently. Grrrr!
+-    ignoreFailures = true
+-}",U vs. D (gradle),other,11,9,1.0
+"
+@@ -6,6 +6,7 @@ import java.util.concurrent.CountDownLatch;
+ import java.util.concurrent.TimeUnit;
+ import org.dna.mqtt.moquette.client.Client;
+ import org.dna.mqtt.moquette.client.IPublishCallback;
++import org.dna.mqtt.moquette.proto.messages.AbstractMessage;
+ import org.junit.After;
+ import static org.junit.Assert.*;
+ import org.junit.Before;","
+@@ -6,6 +6,7 @@ import java.util.concurrent.CountDownLatch;
+ import java.util.concurrent.TimeUnit;
+ import org.dna.mqtt.moquette.client.Client;
+ import org.dna.mqtt.moquette.client.IPublishCallback;
++import org.fusesource.mqtt.client.*;
+ import org.junit.After;
+ import static org.junit.Assert.*;
+ import org.junit.Before;",I vs. I (import),accept both sides,9,9,0.8095
+"
+ @ApiModel(description = """")
+-@javax.annotation.Generated(value = ""class io.swagger.codegen.languages.SpringMVCServerCodegen"", date = ""2015-09-30T16:27:59.075+08:00"")
++@javax.annotation.Generated(value = ""class io.swagger.codegen.languages.SpringMVCServerCodegen"", date = ""2015-10-19T23:12:31.377-07:00"")"," 
+ @ApiModel(description = """")
+-@javax.annotation.Generated(value = ""class io.swagger.codegen.languages.SpringMVCServerCodegen"", date = ""2015-09-30T16:27:59.075+08:00"")
++@javax.annotation.Generated(value = ""class io.swagger.codegen.languages.SpringMVCServerCodegen"", date = ""2015-10-16T21:16:24.594-04:00"")
+",U vs. U (annotations),other,4,4,0.875
+"
+@@ -135,7 +135,7 @@ class AuthenticationSpecificationImpl implements AuthenticationSpecification {
+    * OAuth sign the request. Note that this currently does not wait for a WWW-Authenticate challenge before sending the the OAuth header.
+    * All requests to all domains will be signed for this instance.
+    * This assumes you've already generated an accessToken and secretToken for the site you're targeting.
+-   * For More information on how to achieve this, see the <a href=""http://code.google.com/p/oauth-signpost/wiki/GettingStarted#Using_Signpost"">Signpost documentation</a>.
++   * For More information on how to achieve this, see the <a href=""https://github.com/mttkay/signpost/blob/master/docs/GettingStarted.md#using-signpost"">Signpost documentation</a>.
+    * @param accessToken
+    * @return The request com.jayway.restassured.specification
+    */","
+@@ -130,33 +130,25 @@ class AuthenticationSpecificationImpl implements AuthenticationSpecification {
+     requestSpecification.authenticationScheme = new OAuthScheme(consumerKey: consumerKey, consumerSecret: consumerSecret, accessToken: accessToken, secretToken: secretToken, signature: signature)
+     return requestSpecification
+   }
++
+   /**
+-   * Excerpt from the HttpBuilder docs:<br>
+-   * OAuth sign the request. Note that this currently does not wait for a WWW-Authenticate challenge before sending the the OAuth header.
+-   * All requests to all domains will be signed for this instance.
+-   * This assumes you've already generated an accessToken and secretToken for the site you're targeting.
+-   * For More information on how to achieve this, see the <a href=""http://code.google.com/p/oauth-signpost/wiki/GettingStarted#Using_Signpost"">Signpost documentation</a>.
+-   * @param accessToken
+-   * @return The request com.jayway.restassured.specification
++   * {@inheritDoc}
+    */",U vs. D I,only right,10,16,0.7765
+"
+   <dependency>
+           <groupId>io.netty</groupId>
+           <artifactId>netty-handler</artifactId>
+-          <version>4.1.44.Final</version>
++          <version>4.1.50.Final</version>
+   </dependency>","
+   <dependency>
+   	<groupId>io.netty</groupId>
+   	<artifactId>netty-handler</artifactId>
+-  	<version>4.1.44.Final</version>
++  	<version>4.1.45.Final</version>
+   </dependency>
+   <dependency>
+   	<groupId>io.netty</groupId>",U vs. U (version no.) L > R version,only left,7,9,1.0
+"
+ 
+-If `DubboProviderDemo` works well, please mark sure `DubboProviderDemo` is started.
++If `DubboProviderDemo` doesn't work well, please make sure `DubboProviderDemo` is started.
+ ","
+ 
+-If `DubboProviderDemo` works well, please mark sure `DubboProviderDemo` is started.
++If `DubboProviderDemo` works well, please make sure `DubboProviderDemo` is started.
+ 
+ More details, please refer to [Samples](dubbo-spring-boot-samples).
+",U vs. U (text),only right,5,6,0.4762
+"
+ package springfox.documentation.swagger2.mappers;
+ 
++import com.fasterxml.classmate.ResolvedType;
++import com.fasterxml.classmate.types.ResolvedInterfaceType;","
+ package springfox.documentation.swagger2.mappers;
+ 
++import static com.google.common.collect.Maps.newHashMap;
++import static com.google.common.collect.Maps.newTreeMap;
++import static springfox.documentation.schema.Maps.isMapType;
++import static springfox.documentation.swagger2.mappers.Properties.property;
++
++import java.util.HashMap;
++import java.util.Map;
++import java.util.TreeMap;
++
++import org.mapstruct.Mapper;
++
+ import com.google.common.base.Function;
+ import com.google.common.base.Optional;
+ import com.google.common.base.Predicate;
+ import com.google.common.collect.FluentIterable;
+ import com.google.common.collect.Multimap;",I vs. I(import),only left,5,19,0.1892
+"
+--- a/hibernate-core/src/main/java/org/hibernate/query/criteria/internal/expression/LiteralExpression.java
++++ /dev/null
+","
+--- a/hibernate-core/src/main/java/org/hibernate/query/criteria/internal/expression/LiteralExpression.java
++++ b/hibernate-core/src/main/java/org/hibernate/query/criteria/internal/expression/LiteralExpression.java
+@@ -110,6 +110,11 @@ public class LiteralExpression<T> extends ExpressionImpl<T> implements Serializa
+ 	}
+ 
+ 	private String renderProjection(RenderingContext renderingContext) {
++		if ( ValueHandlerFactory.isCharacter( literal ) ) {
++			// In case literal is a Character, pass literal.toString() as the argument.
++			return renderingContext.getDialect().inlineLiteral( literal.toString() );
++		}
++
+ 		// some drivers/servers do not like parameters in the select clause
+ 		final ValueHandlerFactory.ValueHandler handler =
+ 				ValueHandlerFactory.determineAppropriateHandler( literal.getClass() );
+@@ -117,10 +122,6 @@ public class LiteralExpression<T> extends ExpressionImpl<T> implements Serializa
+ 		if ( handler == null ) {
+ 			return normalRender( renderingContext, LiteralHandlingMode.BIND );
+ 		}
+-
+-		if ( ValueHandlerFactory.isCharacter( literal ) ) {
+-			return renderingContext.getDialect().inlineLiteral( handler.render( literal ) );
+-		}
+ 		else {
+ 			return handler.render( literal );
+ 		}",D vs. U(file),only left,3,26,0.2131
+"
+@@ -96,10 +95,12 @@ public class RefreshRecyclerViewFragment extends BaseFragment implements BGARefr
+         }, 2000);
+         mRefreshLayout.setCustomHeaderView(headerView, true);
+ 
+-        BGAStickinessRefreshViewHolder stickinessRefreshViewHolder = new BGAStickinessRefreshViewHolder(mApp, true);
+-        stickinessRefreshViewHolder.setStickinessColor(Color.parseColor(""#11cd6e""));
+-        stickinessRefreshViewHolder.setRotateDrawable(getResources().getDrawable(R.mipmap.custom_stickiness_roate));
+-        mRefreshLayout.setRefreshViewHolder(stickinessRefreshViewHolder);
++//        BGAStickinessRefreshViewHolder stickinessRefreshViewHolder = new BGAStickinessRefreshViewHolder(mApp, true);
++//        stickinessRefreshViewHolder.setStickinessColor(Color.parseColor(""#11cd6e""));
++//        stickinessRefreshViewHolder.setRotateDrawable(getResources().getDrawable(R.mipmap.custom_stickiness_roate));
++//        mRefreshLayout.setRefreshViewHolder(stickinessRefreshViewHolder);
++
++        mRefreshLayout.setRefreshViewHolder(new BGAMoocStyleRefreshViewHolder(mApp, true));
+","
+@@ -97,8 +96,8 @@ public class RefreshRecyclerViewFragment extends BaseFragment implements BGARefr
+         mRefreshLayout.setCustomHeaderView(headerView, true);
+ 
+         BGAStickinessRefreshViewHolder stickinessRefreshViewHolder = new BGAStickinessRefreshViewHolder(mApp, true);
+-        stickinessRefreshViewHolder.setStickinessColor(Color.parseColor(""#11cd6e""));
+-        stickinessRefreshViewHolder.setRotateDrawable(getResources().getDrawable(R.mipmap.custom_stickiness_roate));
++        stickinessRefreshViewHolder.setStickinessColor(R.color.custom_stickiness);
++        stickinessRefreshViewHolder.setRotateImage(R.mipmap.custom_stickiness_roate);
+         mRefreshLayout.setRefreshViewHolder(stickinessRefreshViewHolder);
+ ",U I vs. U (Java code),only right,15,11,0.8966
+"
+- * <p/>
++ * </p>
+  * Normal DataFetchers can be used, however they will not see benefits of batching as they expect a single source object
+  * at a time.
+  */","
+- * <p/>
++ * <p>
+  * Normal DataFetchers can be used, however they will not see benefits of batching as they expect a single source object
+  * at a time.",U vs. U (Javadoc),only right,6,5,1.0
+"
+-        <oauth:resource id=""three"" client-id=""my-client-id"" pre-established-redirect-uri=""http://anywhere.com""
++        <oauth:resource id=""three"" client-id=""my-client-id"" pre-established-redirect-uri=""https://anywhere.com""
+                 access-token-uri=""http://somewhere.com"" user-authorization-uri=""http://somewhere.com"" scope=""none,some"" type=""authorization_code""
+                 use-current-uri=""false"" />
+ 
+-        <oauth:resource id=""four"" client-id=""my-client-id"" pre-established-redirect-uri=""http://anywhere.com""
++        <oauth:resource id=""four"" client-id=""my-client-id"" pre-established-redirect-uri=""https://anywhere.com""
+                 user-authorization-uri=""http://somewhere.com"" scope=""none,some"" type=""implicit"" />","
+-        <oauth:resource id=""three"" client-id=""my-client-id"" pre-established-redirect-uri=""http://anywhere.com""
+-                access-token-uri=""http://somewhere.com"" user-authorization-uri=""http://somewhere.com"" scope=""none,some"" type=""authorization_code""
++        <oauth:resource id=""three"" client-id=""my-client-id"" pre-established-redirect-uri=""https://anywhere.com""
++                access-token-uri=""https://somewhere.com"" user-authorization-uri=""https://somewhere.com"" scope=""none,some"" type=""authorization_code""
+                 use-current-uri=""false"" />
+ 
+-        <oauth:resource id=""four"" client-id=""my-client-id"" pre-established-redirect-uri=""http://anywhere.com""
+-                user-authorization-uri=""http://somewhere.com"" scope=""none,some"" type=""implicit"" />
++        <oauth:resource id=""four"" client-id=""my-client-id"" pre-established-redirect-uri=""https://anywhere.com""
++                user-authorization-uri=""https://somewhere.com"" scope=""none,some"" type=""implicit"" />
+","U vs. U (L change one http to https, R change two)",only right,9,11,1.0
+"
+ import org.springframework.beans.factory.annotation.Autowired;
+-import org.springframework.test.context.ActiveProfiles;
+-import org.springframework.test.context.ContextConfiguration;
++import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
++import org.springframework.boot.test.mock.mockito.MockBean;
++import org.springframework.samples.petclinic.model.Pet;
++import org.springframework.samples.petclinic.service.ClinicService;
+ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;","
+ import org.springframework.beans.factory.annotation.Autowired;
+-import org.springframework.test.context.ActiveProfiles;
++import org.springframework.samples.petclinic.model.Pet;
++import org.springframework.samples.petclinic.service.ClinicService;
+ import org.springframework.test.context.ContextConfiguration;
+ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;",D I vs. U I(R is subset of L),only left,9,7,0.7037
+"
+--- a/spring-cloud-netflix-zuul/src/test/java/org/springframework/cloud/netflix/zuul/web/ZuulHandlerMappingTests.java
++++ /dev/null","
+@@ -1,5 +1,5 @@
+ /*
+- * Copyright 2013-2019 the original author or authors.
++ * Copyright 2013-2020 the original author or authors.
+  *
+  * Licensed under the Apache License, Version 2.0 (the ""License"");
+  * you may not use this file except in compliance with the License.",D vs. U (Java file),only left,3,8,0.0
+"
+@@ -3,16 +3,18 @@ package org.fengfei.lanproxy.server.handlers;
+ import java.net.InetSocketAddress;
+ import java.util.concurrent.atomic.AtomicLong;
+ ... 
+ import org.fengfei.lanproxy.protocol.Constants;
+ import org.fengfei.lanproxy.protocol.ProxyMessage;
+ import org.fengfei.lanproxy.server.ProxyChannelManager;
+ import org.fengfei.lanproxy.server.config.ProxyConfig;
+ 
+ import io.netty.buffer.ByteBuf;
+-import io.netty.channel.Channel;
+-import io.netty.channel.ChannelHandlerContext;
+-import io.netty.channel.ChannelOption;
+-import io.netty.channel.SimpleChannelInboundHandler;","
+@@ -9,7 +9,9 @@ import org.fengfei.lanproxy.server.ProxyChannelManager;
+ import org.fengfei.lanproxy.server.config.ProxyConfig;
+ 
+ import io.netty.buffer.ByteBuf;
++import io.netty.buffer.Unpooled;
+ import io.netty.channel.Channel;
++import io.netty.channel.ChannelFutureListener;
+ import io.netty.channel.ChannelHandlerContext;
+ import io.netty.channel.ChannelOption;
+ import io.netty.channel.SimpleChannelInboundHandler;
+",D vs. I (Java code),only right,15,11,0.5333
+"
+@@ -1,6 +1,6 @@
+ Manifest-Version: 1.0
+ AutoUpdate-Essential-Module: true
+ OpenIDE-Module-Localizing-Bundle: org/gephi/statistics/plugin/Bundle.properties
+-OpenIDE-Module-Specification-Version: 0.9.1.2
++OpenIDE-Module-Specification-Version: ${gephi.modules.specification.version}
+ OpenIDE-Module-Display-Category: Plugin
+ OpenIDE-Module-Name: Statistics Plugin","
+@@ -1,6 +1,6 @@
+ Manifest-Version: 1.0
+ AutoUpdate-Essential-Module: true
+ OpenIDE-Module-Localizing-Bundle: org/gephi/statistics/plugin/Bundle.properties
+-OpenIDE-Module-Specification-Version: 0.9.1.2
++OpenIDE-Module-Specification-Version: 0.9.1.4
+ OpenIDE-Module-Display-Category: Plugin
+ OpenIDE-Module-Name: Statistics Plugin",U vs. U (.mf),only left,9,9,0.9474
+"
+@@ -108,11 +108,6 @@ public class IntMap<T> implements Traversable<T>, Serializable {
+         return IntMap.of(original.filter(p -> predicate.test(p.value)));
+     }
+ 
+-    @Override
+-    public Option<T> findLast(Predicate<? super T> predicate) {
+-        return original.findLast(p -> predicate.test(p.value)).map(o -> o.value);
+-    }","
+     @Override
+     public Option<T> findLast(Predicate<? super T> predicate) {
+-        return original.findLast(p -> predicate.test(p.value)).map(o -> o.value);
++        return original.findLast(p -> predicate.test(p._2)).map(o -> o._2);
+     }",D vs. U (Java code),only left,9,6,0.6364
+"
+@@ -16,14 +16,12 @@
+ 
+ package com.hazelcast.map.proxy;
+ 
+-import com.hazelcast.core.EntryListener;
+-import com.hazelcast.core.HazelcastException;
+-import com.hazelcast.core.Member;
+-import com.hazelcast.core.Transaction;
++import com.hazelcast.core.*;
+ import com.hazelcast.instance.MemberImpl;
+ import com.hazelcast.instance.ThreadContext;
+ import com.hazelcast.map.*;
+ import com.hazelcast.monitor.LocalMapStats;
+ ...","
+@@ -16,8 +16,8 @@
+ 
+ package com.hazelcast.map.proxy;
+ 
++import com.hazelcast.concurrent.lock.*;
+ import com.hazelcast.core.EntryListener;
+-import com.hazelcast.core.HazelcastException;
+ import com.hazelcast.core.Member;
+ import com.hazelcast.core.Transaction;
+ import com.hazelcast.instance.MemberImpl;",D I vs. D I(import),only right,15,11,0.7222
+"
+-    public static final Set<String> KEYS = new HashSet<String>();
++    public static final Set<String> KEYS                    = new HashSet<>();","
+-    public static final Set<String> KEYS = new HashSet<String>();
++    public static final Set<String> KEYS                    = new HashSet<String>();",U vs. U (Java code),only left,3,3,1.0
+"
+rename ""subprojects/groovy-console/src/main/groovy/groovy/inspect/TextTreeNodeMaker.groovy""->""subprojects/groovy-console/src/temp""","
+rename ""subprojects/groovy-console/src/main/groovy/groovy/inspect/TextTreeNodeMaker.groovy""->""subprojects/groovy-console/src/main/groovy/groovy/console/`.groovy""",U vs. U (.groovy),other,2,2,0.8889
+"
+@@ -24,3 +24,4 @@ viktorklang    | Viktor Klang, viktor.klang@gmail.com, Typesafe Inc.
+ smaldini       | Stephane Maldini, stephane.maldini@gmail.com, Pivotal Software Inc.
+ savulchik      | Stanislav Savulchik, s.savulchik@gmail.com
+ ktoso          | Konrad Malawski, konrad.malawski@project13.pl, Typesafe Inc.
++colinrgodsey   | Colin Godsey, crgodsey@gmail.com, MediaMath Inc.","
+@@ -24,3 +24,6 @@ viktorklang    | Viktor Klang, viktor.klang@gmail.com, Typesafe Inc.
+ smaldini       | Stephane Maldini, stephane.maldini@gmail.com, Pivotal Software Inc.
+ savulchik      | Stanislav Savulchik, s.savulchik@gmail.com
+ ktoso          | Konrad Malawski, konrad.malawski@project13.pl, Typesafe Inc.
++ouertani       | Slim Ouertani, ouertani@gmail.com
++2m             | Martynas Mickevičius, mmartynas@gmail.com, Typesafe Inc.
++ldaley         | Luke Daley, luke.daley@gradleware.com, Gradleware Inc.",I vs. I(.txt),accept both sides,6,8,0.5556
+"
+@@ -30,7 +30,7 @@
+     <skipCheckstyle>false</skipCheckstyle>
+ 
+     <slf4j.version>1.6.1</slf4j.version>
+-    <c3p0.version>0.9.1.1</c3p0.version>
++    <c3p0.version>0.9.5.4</c3p0.version>
+     <log4j.version>1.2.16</log4j.version>
+     <maven-forge-plugin.version>1.0.5-SNAPSHOT</maven-forge-plugin.version>","
+-    <slf4j.version>1.6.1</slf4j.version>
+-    <c3p0.version>0.9.1.1</c3p0.version>
++    
++    <slf4j.version>1.7.7</slf4j.version>
++    <c3p0.version>0.9.5.3</c3p0.version>",U vs. D I (.xml),other,9,6,0.3
+"
+@@ -942,12 +976,3 @@ tcp:refreshinterval=250
+ # synchronously. Defaults to true.
+ #mqtt:<broker>.async=<async>
+ 
+-
+-################################ MAX!Cube Binding ##########################################
+-#
+-# MAX!Cube LAN gateway IP address 
+-# maxcube:ip=192.168.0.222
+-# MAX!Cube port (Optional, default to 62910)
+-# maxcube:port=62910
+-# MAX!Cube refresh interval in ms (Optional, default to 10000)
+-# maxcube:refreshInterval=10000","
+@@ -946,8 +946,14 @@ tcp:refreshinterval=250
+ ################################ MAX!Cube Binding ##########################################
+ #
+ # MAX!Cube LAN gateway IP address 
+-# maxcube:ip=192.168.0.222
++#maxcube:ip=
+ # MAX!Cube port (Optional, default to 62910)
+-# maxcube:port=62910
++#maxcube:port=
+ # MAX!Cube refresh interval in ms (Optional, default to 10000)
+-# maxcube:refreshInterval=10000
++#maxcube:refreshInterval=
++
++
++################################ Insteon Hub Binding #######################################
++#
++# The IP address of the Insteon Hub
++#insteonhub:host=",D vs. D I(.cfg),only left,14,19,0.6
+"
+@@ -3,7 +3,7 @@ version = ob_version
+ 
+ buildscript {
+     ext {
+-        ob_version = '2.0.0'
++        ob_version = '2.1.0-SNAPSHOT'
+         ob_native_version = ob_version // Be careful to diverge here; easy to forget and hard to find JNI problems
+         ob_expected_version = project.hasProperty('expectedVersion') ? project.property('expectedVersion') : 'UNDEFINED'
+","
+@@ -3,7 +3,7 @@ version = ob_version
+ 
+ buildscript {
+     ext {
+-        ob_version = '2.0.0'
++        ob_version = '2.1.0'
+         ob_native_version = ob_version // Be careful to diverge here; easy to forget and hard to find JNI problems
+         ob_expected_version = project.hasProperty('expectedVersion') ? project.property('expectedVersion') : 'UNDEFINED'
+ ","U vs. U (.gradle, version no)",only right,9,10,0.9583
+"
+@@ -111,18 +111,10 @@ public class EventWeaver extends ClassVisitor implements Opcodes, AsmTypes, AsmM
+                                        final String desc) {
+         final Type methodType = Type.getMethodType(desc);
+         final Collection<String> parameterClassNameArray = new ArrayList<String>();
+-        if (null != methodType.getArgumentTypes()) {
+-            for (final Type parameterType : methodType.getArgumentTypes()) {
+-                parameterClassNameArray.add(parameterType.getClassName());
+-            }
++        for (final Type parameterType : methodType.getArgumentTypes()) {
++            parameterClassNameArray.add(parameterType.getClassName());
+         }
+-        final String signCode = String.format(
+-                ""%s#%s(%s)"",
+-                targetJavaClassName,
+-                name,
+-                join(parameterClassNameArray, "","")
+-        );
+-        return signCode;
++        return targetJavaClassName + ""#"" + name + ""("" + join(parameterClassNameArray, "","") + "")"";
+     }
+ 
+     @Override`","
+@@ -109,20 +109,17 @@ public class EventWeaver extends ClassVisitor implements Opcodes, AsmTypes, AsmM
+ 
+     private String getBehaviorSignCode(final String name,
+                                        final String desc) {
+-        final Type methodType = Type.getMethodType(desc);
+-        final Collection<String> parameterClassNameArray = new ArrayList<String>();
+-        if (null != methodType.getArgumentTypes()) {
+-            for (final Type parameterType : methodType.getArgumentTypes()) {
+-                parameterClassNameArray.add(parameterType.getClassName());
++        final StringBuilder sb = new StringBuilder(256).append(targetJavaClassName).append(""#"").append(name).append(""("");
++
++        final Type[] methodTypes = Type.getMethodType(desc).getArgumentTypes();
++        if (methodTypes.length != 0) {
++            sb.append(methodTypes[0].getClassName());
++            for (int i = 1; i < methodTypes.length; i++) {
++                sb.append("","").append(methodTypes[i].getClassName());
+             }
+         }
+-        final String signCode = String.format(
+-                ""%s#%s(%s)"",
+-                targetJavaClassName,
+-                name,
+-                join(parameterClassNameArray, "","")
+-        );
+-        return signCode;
++
++        return sb.append("")"").toString();
+     }
+ 
+     @Override",D I vs. D I,only right,23,31,0.7727
+"
+@@ -11,10 +11,10 @@ import org.junit.Before;
+ import org.junit.Rule;
+ import org.junit.Test;
+ import org.junit.rules.ExpectedException;
+-import org.mockito.Mockito;
+ 
++import java.sql.Date;
++import java.time.Instant;
+ import java.util.Collections;
+-import java.util.Date;
+ import java.util.HashMap;
+ import java.util.Map;","
+@@ -13,10 +13,7 @@ import org.junit.Test;
+ import org.junit.rules.ExpectedException;
+ import org.mockito.Mockito;
+ 
+-import java.util.Collections;
+-import java.util.Date;
+-import java.util.HashMap;
+-import java.util.Map;
++import java.util.*;
+ 
+ import static com.auth0.jwt.impl.JWTParser.getDefaultObjectMapper;
+ import static org.hamcrest.MatcherAssert.assertThat;",D I vs. D I,other,13,13,0.4643
+"
+     <modelVersion>4.0.0</modelVersion>
+     <groupId>org.atmosphere</groupId>
+     <artifactId>atmosphere-modules</artifactId>
+-    <version>2.3.1-SNAPSHOT</version>
+     <packaging>pom</packaging>
+     <name>atmosphere-modules</name>
+     <url>https://github.com/Atmosphere/atmosphere</url>","
+     <modelVersion>4.0.0</modelVersion>
+     <groupId>org.atmosphere</groupId>
+     <artifactId>atmosphere-modules</artifactId>
+-    <version>2.3.1-SNAPSHOT</version>
++    <version>2.3.2-SNAPSHOT</version>
+     <packaging>pom</packaging>
+     <name>atmosphere-modules</name>
+     <url>https://github.com/Atmosphere/atmosphere</url>","D vs. U (xml, version no)",other,8,9,1.0
+"
+-## 启动阿里注册中心
++## 启动监控类服务，如springboot-admin、sentinel-dashboard
+ 
+-`docker-compose -f docker-compose.yml -f docker-compose.nacos.yml up`
+\ No newline at end of file
++`docker-compose -f docker-compose.yml -f docker-compose.monitor.yml up`
+\ No newline at end of file","
+@@ -16,4 +16,8 @@ postgres、redis、rabbitmq
+ 
+ ## 启动阿里注册中心
+ 
+-`docker-compose -f docker-compose.yml -f docker-compose.nacos.yml up`
+\ No newline at end of file
++`docker-compose -f docker-compose.yml -f docker-compose.nacos.yml up`
++
++## 启动MOSS
++
++`docker-compose -f docker-compose.yml -f docker-compose.nacos.yml up moss`
+\ No newline at end of file
+",U vs. U I,other,8,13,0.5714
+"
+         if (null == attachVmdObj) {
+-            throw new IllegalArgumentException(""pid:"" + configer.getJavaPid() + "" not existed."");
++            throw new IllegalArgumentException(""pid:"" + configure.getJavaPid() + "" not existed."");
+         }","
+         if (null == attachVmdObj) {
+-            throw new IllegalArgumentException(""pid:"" + configer.getJavaPid() + "" not existed."");
++            // throw new IllegalArgumentException(""pid:"" + configer.getJavaPid() + "" not existed."");
+         }",U vs. U,other,5,5,0.9167
+"
+--- a/tx-spi-message-netty/src/main/java/com/codingapi/tx/spi/message/netty/impl/NettyRpcClientInitializer.java
++++ b/tx-spi-message-netty/src/main/java/com/codingapi/tx/spi/message/netty/impl/NettyRpcClientInitializer.java
+","
+--- a/tx-spi-message-netty/src/main/java/com/codingapi/tx/spi/message/netty/impl/NettyRpcClientInitializer.java
++++ /dev/null",U vs. D (Java file),only left,3,3,0.8
+"
+@@ -75,12 +75,6 @@
+                 </div>
+             </form>
+ 
+-            <div>
+-                <br/> <br/> <font color=""red"">请先到<a href=""http://www.roncoo.com?fromSource=roncoo-pay"" target=""_blank"">龙果学院</a>注册,
+-                然后使用注册账户登录!
+-            </font>
+-            </div>
+-
+                         </div>
+                         <div class=""login_banner"">
+                                 <img src=""${baseURL }/dwz/themes/default/images/login_banner.jpg"" />","
+-            <div>
+-                <br/> <br/> <font color=""red"">请先到<a href=""http://www.roncoo.com?fromSource=roncoo-pay"" target=""_blank"">龙果学院</a>注册,
+-                然后使用注册账户登录!
+-            </font>
+-            </div>
++                                </c:if>
++                                <div class=""login_bar"">
++                                        <input class=""sub"" type=""submit"" value="" ""/>
++                                </div>
++                        </form>",D vs. D I (.jsp),only right,14,11,0.5
+"
+rename from src/com/modcrafting/luyten/*.java
+rename to src/us/deathmarine/luyten/*.java","
+--- /dev/null
++++ b/src/com/modcrafting/luyten/Selection.java",U vs. I (folder rename vs. file insertion),other,3,3,0.3571
+"
++        // try {
++        // return jarLoader.loadClass(name);
++        // } catch (ClassNotFoundException e) {
++        // }
+ 
+-    @Override
+-    public synchronized Class<?> loadClass(String name) throws ClassNotFoundException {
+-        Class<?> klazz = loadClassWithoutBuilding(name);
++        Class<?> klazz = cachedClasses.get(name);
+         if (klazz != null) {
+             return klazz;
+         }","
+@@ -69,6 +72,18 @@ public class SmaliClassLoader extends ClassLoader {
+         return cachedClasses.get(name);
+     }
+ 
++    private void filterAvailableClasses(Set<String> classNames) {
++        Iterator<String> iter = classNames.iterator();
++        while (iter.hasNext()) {
++            String className = iter.next();
++            String baseName = ClassNameUtils.getComponentBase(className);
++            String binaryName = ClassNameUtils.internalToBinary(baseName);
++            if (loadClassWithoutBuilding(binaryName) != null) {
++                iter.remove();
++            }
++        }
++    }
+     @Override
+     public synchronized Class<?> loadClass(String name) throws ClassNotFoundException {
+         Class<?> klazz = loadClassWithoutBuilding(name);",D I vs. I,only left,13,19,0.4
+"
+@@ -16,6 +16,7 @@ log4j.appender.file.layout.ConversionPattern=%d{yyyy-MM-dd HH:mm:ss} [%-5p] [%t]
+ 
+ log4j.logger.com.lambdaworks=INFO
+ log4j.logger.io.netty=INFO
++log4j.logger.com.lambdaworks.redis.protocol=DEBUG
+ log4j.logger.com.lambdaworks.redis.cluster=INFO
+ log4j.logger.com.lambdaworks.redis.protocol.ConnectionWatchdog=INFO","
+ log4j.logger.io.netty=INFO
++
++log4j.logger.com.lambdaworks=INFO
+ log4j.logger.com.lambdaworks.redis.cluster=INFO
++log4j.logger.com.lambdaworks.redis.protocol=INFO
++log4j.logger.com.lambdaworks.redis.RedisClient=INFO
+ log4j.logger.com.lambdaworks.redis.protocol.ConnectionWatchdog=INFO",I vs. I(.properties),only right,8,8,0.44
+"
+ import org.joda.time.format.DateTimeFormat;
+ 
+-import azkaban.executor.ExecutableFlow;
+-import azkaban.executor.ExecutableNode;
+-import azkaban.executor.ExecutorManagerException;
+-import azkaban.executor.ExecutableFlow.FailureAction;
+-import azkaban.executor.ExecutableFlow.Status;
++import azkaban.executor.ExecutionOptions;
+ import azkaban.flow.Flow;
+ import azkaban.flow.Node;","
+ import org.joda.time.format.DateTimeFormat;
+ 
+-import azkaban.executor.ExecutableFlow;
+-import azkaban.executor.ExecutableNode;
+-import azkaban.executor.ExecutorManagerException;
+ import azkaban.executor.ExecutableFlow.FailureAction;
+-import azkaban.executor.ExecutableFlow.Status;
+ import azkaban.flow.Flow;
+ import azkaban.flow.Node;","D I vs. D (import, L includes R)",only left,11,10,0.9375
+"
+@@ -4,7 +4,7 @@
+ 
+     <groupId>org.reflections</groupId>
+     <artifactId>reflections</artifactId>
+-    <version>0.9.12-SNAPSHOT</version>
++    <version>0.9.12-jdk8</version>","
+@@ -4,7 +4,7 @@
+ 
+     <groupId>org.reflections</groupId>
+     <artifactId>reflections</artifactId>
+-    <version>0.9.12-SNAPSHOT</version>
++    <version>0.9.13-SNAPSHOT</version>","U vs. U (xml, version no) L < R version",only right,7,7,0.8571
+"
+         <module>modules/ssh</module>
+-        <module>modules/servlet-startup</module>
+-        <module>modules/rest</module>
+-        <module>modules/mail</module>
++        <module>modules/rest-tcp</module>
++        <module>modules/rest-http</module>
++        <module>modules/email</module>","
+         <module>modules/ssh</module>
+-        <module>modules/servlet-startup</module>
+         <module>modules/rest</module>
+-        <module>modules/mail</module>
++        <module>modules/email</module>","U vs. D U (xml, L includes R)",only left,8,6,0.8
+"
+                  </dependency>
+                  
++                <dependency>
++                        <groupId>org.springframework</groupId>
++                        <artifactId>spring-webmvc</artifactId>
++                        <version>4.3.8.RELEASE</version>
++                        <scope>provided</scope>
++                </dependency>
++                
+         </dependencies>","
+                  </dependency>
+                  
++                <dependency>
++                        <groupId>org.springframework</groupId>
++                        <artifactId>spring-webmvc</artifactId>
++                        <version>4.3.8.RELEASE</version>
++                        <scope>provided</scope>
++                </dependency>
+         </dependencies>",I vs. I(xml),only right,11,10,1.0
+"
+@@ -1,5 +1,5 @@
+ micrometerVersion=1.3.0
+-version=3.3.10.BUILD-SNAPSHOT
++version=3.4.0-SNAPSHOT
+ reactiveStreamsVersion=1.0.3
+ compatibleVersion=3.3.0.RELEASE
+ perfBaselineVersion=3.3.6.RELEASE","
+@@ -1,5 +1,5 @@
+ micrometerVersion=1.3.0
+-version=3.3.10.BUILD-SNAPSHOT
++version=3.3.11.BUILD-SNAPSHOT
+ reactiveStreamsVersion=1.0.3
+ compatibleVersion=3.3.0.RELEASE
+ perfBaselineVersion=3.3.6.RELEASE","U vs. U (properties, version no) L > R version",only left,8,8,1.0
+"
+@@ -61,12 +62,12 @@ javac.classpath=\
+     ${file.reference.ant.jar}:\
+     ${file.reference.bcel-5.2.jar}:\
+     ${file.reference.jrcs.jar}:\
+-    ${file.reference.servlet-api.jar}:\
+-    ${file.reference.swing-layout-0.9.jar}:\
+-    ${file.reference.lucene-core.jar}:\
+     ${file.reference.lucene-analyzers-common.jar}:\
++    ${file.reference.lucene-core.jar}:\
+     ${file.reference.lucene-queryparser.jar}:\
+-    ${file.reference.lucene-suggest.jar}
++    ${file.reference.lucene-suggest.jar}:\
++    ${file.reference.servlet-api.jar}:\
++    ${file.reference.swing-layout-0.9.jar}
+  
+ # Space-separated list of extra javac options","
+@@ -66,8 +67,8 @@ javac.classpath=\
+     ${file.reference.lucene-core.jar}:\
+     ${file.reference.lucene-analyzers-common.jar}:\
+     ${file.reference.lucene-queryparser.jar}:\
+-    ${file.reference.lucene-suggest.jar}
+- 
++    ${file.reference.lucene-suggest.jar}:\
++    ${file.reference.json-simple-1.1.1.jar}
+ # Space-separated list of extra javac options",U I vs. D I (.properties),accept both sides,17,10,0.6538
+"
+@@ -47,10 +47,26 @@
+ 
+       <subsection name=""Requirements"">
+         <p>
+-          The MyBatis-Spring-Boot-Starter-Test requirements refer to <a
+-            href=""http://www.mybatis.org/spring-boot-starter/mybatis-spring-boot-autoconfigure/#Requirements"">
+-          here</a>.
++          The MyBatis-Spring-Boot-Starter-Test requires Java 6 or higher and the following Spring Boot version:
+         </p>
++        <table>
++          <thead>
++            <tr>
++              <th>MyBatis-Spring-Boot-Starter-Test</th>
++              <th>Spring Boot</th>
++            </tr>
++          </thead>
++          <tbody>
++            <tr>
++              <td><b>1.3.x (1.3.0)</b></td>
++              <td>1.5 or higher</td>
++            </tr>
++            <tr>
++              <td><b>1.2.x (1.2.1)</b></td>
++              <td>1.4</td>
++            </tr>
++          </tbody>
++        </table>
+       </subsection>","
+@@ -47,10 +47,22 @@
+ 
+       <subsection name=""Requirements"">
+         <p>
+-          The MyBatis-Spring-Boot-Starter-Test requirements refer to <a
+-            href=""http://www.mybatis.org/spring-boot-starter/mybatis-spring-boot-autoconfigure/#Requirements"">
+-          here</a>.
++          The MyBatis-Spring-Boot-Starter-Test requires Java 6 or higher and the following Spring Boot version:
+         </p>
++        <table>
++          <thead>
++            <tr>
++              <th>MyBatis-Spring-Boot-Starter-Test</th>
++              <th>Spring Boot</th>
++            </tr>
++          </thead>
++          <tbody>
++            <tr>
++              <td><b>1.2.x (1.2.1)</b></td>
++              <td>1.4</td>
++            </tr>
++          </tbody>
++        </table>
+       </subsection>",I vs. I,only left,29,25,1.0
+"
+@@ -4,6 +4,7 @@ import java.io.IOException;
+ 
+ import org.knowm.xchange.Exchange;
+ import org.knowm.xchange.binance.BinanceAuthenticated;
++import org.knowm.xchange.binance.dto.meta.exchangeinfo.BinanceExchangeInfo;
+ import org.knowm.xchange.service.BaseExchangeService;
+ import org.knowm.xchange.service.BaseService;","
+@@ -4,6 +4,7 @@ import java.io.IOException;
+ 
+ import org.knowm.xchange.Exchange;
+ import org.knowm.xchange.binance.BinanceAuthenticated;
++import org.knowm.xchange.binance.BinanceExchange;
+ import org.knowm.xchange.service.BaseExchangeService;
+ import org.knowm.xchange.service.BaseService;
+",I vs. I (import),only right,8,8,0.7222
+"
+@@ -1,5 +1,8 @@
+ <?xml version=""1.0"" encoding=""UTF-8""?>
+ <project version=""4"">
++  <component name=""EntryPointsManager"">
++    <entry_points version=""2.0"" />
++  </component>
+   <component name=""NullableNotNullManager"">
+     <option name=""myDefaultNullable"" value=""android.support.annotation.Nullable"" />
+     <option name=""myDefaultNotNull"" value=""android.support.annotation.NonNull"" />","
+--- a/.idea/misc.xml
++++ /dev/null",U vs. D (xml file),only left,10,3,0.0417
+"
+@@ -519,7 +520,7 @@ public class MainActivity extends BaseActivity implements
+         File usb = getUsbDrive();
+         if (usb != null && !rv.contains(usb.getPath())) rv.add(usb.getPath());
+ 
+-        if (Sp.getString(KEY_PREF_OTG, null)!=null) rv.add(""OTG"");
++        if (Sp.getString(KEY_PREF_OTG, null)!=null) rv.add(""otg:/"");
+         return rv;
+     }","
+@@ -519,7 +519,7 @@ public class MainActivity extends BaseActivity implements
+         File usb = getUsbDrive();
+         if (usb != null && !rv.contains(usb.getPath())) rv.add(usb.getPath());
+ 
+-        if (Sp.getString(KEY_PREF_OTG, null)!=null) rv.add(""OTG"");
++        if (Sp.getString(KEY_PREF_OTG, null) != null) rv.add(""OTG"");
+         return rv;
+     }",U vs. U (Java code) right only add space,only left,9,9,1.0
+"
+@@ -7,6 +7,7 @@ import java.awt.Dimension;
+  * object inside of an enclosing object.
+  * 
+  * @author coobird
++ * @since        0.3.4
+  *
+  */","
+@@ -7,6 +7,7 @@ import java.awt.Dimension;
+  * object inside of an enclosing object.
+  * 
+  * @author coobird
++ * @since 0.3.4
+  *
+  */",I vs. I (Java comment),only left,8,8,1.0
+"
+@@ -54,13 +54,13 @@ public class ColumnRiverFlowTests extends AbstractRiverNodeTest {
+         RiverFlow flow = new ColumnRiverFlow();
+         flow.setRiverContext(context);
+         flow.getFeeder()
++                .setName(context.getRiverName())
+                 .setRiverState(new RiverState())
+                 .setSpec(spec)
+                 .setSettings(settings)
+                 .setClient(client)
+                 .run();
+-        // we can no longer test this, as _river index is always deleted between test runs!
+-        //assertLastRiverRunTimeExists(client);
++        assertLastRiverRunTimeExists(client);
+     }","
+@@ -54,13 +54,14 @@ public class ColumnRiverFlowTests extends AbstractRiverNodeTest {
+         RiverFlow flow = new ColumnRiverFlow();
+         flow.setRiverContext(context);
+         flow.getFeeder()
++                .setName(context.getRiverName())
+                 .setRiverState(new RiverState())
+                 .setSpec(spec)
+                 .setSettings(settings)
+                 .setClient(client)
+                 .run();
+-        // we can no longer test this, as _river index is always deleted between test runs!
+-        //assertLastRiverRunTimeExists(client);
++        client.admin().indices().refresh(Requests.refreshRequest(""_river"")).actionGet();
++        assertLastRiverRunTimeExists(client);
+     }",D U vs. D I(Java code),only left,15,16,0.8636
+"
+@@ -15,48 +15,18 @@
+  */
+ package org.terasology.world.generator.plugin;
+ 
+-import java.util.Set;
+-
+-import org.terasology.asset.AssetManager;
+-import org.terasology.config.Config;
+-import org.terasology.engine.module.ModuleManager;
+-import org.terasology.module.DependencyInfo;
+-import org.terasology.module.Module;
+ import org.terasology.module.ModuleEnvironment;
+-import org.terasology.naming.Name;
+ import org.terasology.reflection.copy.CopyStrategyLibrary;
+ import org.terasology.reflection.reflect.ReflectFactory;
+ import org.terasology.registry.CoreRegistry;
+ 
+-import com.google.common.collect.Sets;
+-","
+@@ -15,20 +15,17 @@
+  */
+ package org.terasology.world.generator.plugin;
+ 
+-import java.util.Set;
+-
++import com.google.common.collect.Sets;
+ import org.terasology.asset.AssetManager;
+ import org.terasology.config.Config;
++import org.terasology.context.Context;
+ import org.terasology.engine.module.ModuleManager;
+ import org.terasology.module.DependencyInfo;
+ import org.terasology.module.Module;
+ import org.terasology.module.ModuleEnvironment;
+ import org.terasology.naming.Name;
+-import org.terasology.reflection.copy.CopyStrategyLibrary;
+-import org.terasology.reflection.reflect.ReflectFactory;
+-import org.terasology.registry.CoreRegistry;
+ 
+-import com.google.common.collect.Sets;
++import java.util.Set;",D vs. D I (import),other,20,22,0.9697
+"
+@@ -3,8 +3,8 @@
+ ## 介绍
+ Guns基于SpringBoot 2，致力于做更简洁的后台管理系统，完美整合springmvc + shiro + mybatis-plus + beetl!Guns项目代码简洁，注释丰富，上手容易，同时Guns包含许多基础模块(用户管理，角色管理，部门管理，字典管理等10个模块)，可以直接作为一个后台管理系统的脚手架! 2018目标 `更简洁`，`更规范`!
+ 
+-## 云服务器全网最低 Guns专属优惠
+-1核2G 99/年，298/3年，2核4G 500/1年，1227/3年，2核8G 5M带宽 2000/3年，仅限阿里云新用户，想买的老用户可以注册一个哦，点击链接购买[https://m.aliyun.com/act/team1111/#/share?params=N.lqp2rk5ITB.p4kqz45e](https://m.aliyun.com/act/team1111/#/share?params=N.lqp2rk5ITB.p4kqz45e) 
++## 旗舰版抢先看
++Guns旗舰版预计12月底发布第一个版本，目前功能尚不完善，demo地址（admin/111111）：[http://demo.stylefeng.cn](http://demo.stylefeng.cn)，不要再问旗舰版收不收费，不然我真的就收费了 :smiling_imp:  :smiling_imp: 
+ 
+ ### Guns v5.1更新内容
+ ","
+@@ -1,20 +1,20 @@
+-# Guns V5.1
++# Guns旗舰版v1.0 震撼发布
+ 
+ ## 介绍
+-Guns基于SpringBoot 2，致力于做更简洁的后台管理系统，完美整合springmvc + shiro + mybatis-plus + beetl!Guns项目代码简洁，注释丰富，上手容易，同时Guns包含许多基础模块(用户管理，角色管理，部门管理，字典管理等10个模块)，可以直接作为一个后台管理系统的脚手架! 2018目标 `更简洁`，`更规范`!
++Guns基于SpringBoot 2，致力于做更简洁的后台管理系统，完美整合springmvc + shiro + mybatis-plus + beetl!Guns项目代码简洁，注释丰富，上手容易，同时Guns包含许多基础模块(用户管理，角色管理，部门管理，字典管理等10个模块)，可以直接作为一个后台管理系统的脚手架! 
+ 
+-## 云服务器全网最低 Guns专属优惠
+-1核2G 99/年，298/3年，2核4G 500/1年，1227/3年，2核8G 5M带宽 2000/3年，仅限阿里云新用户，想买的老用户可以注册一个哦，点击链接购买[https://m.aliyun.com/act/team1111/#/share?params=N.lqp2rk5ITB.p4kqz45e](https://m.aliyun.com/act/team1111/#/share?params=N.lqp2rk5ITB.p4kqz45e) 
++### Guns旗舰版v1.0 更新内容",D I vs. D I (.md),other,12,12,0.7407
+"
+ import static com.mysema.query.Target.DERBY;
++import static com.mysema.query.Target.TERADATA;
+ import static org.junit.Assert.assertEquals;","
+ import static com.mysema.query.Target.DERBY;
++import static com.mysema.query.Target.MYSQL;
+ import static org.junit.Assert.assertEquals;",I vs. I (import),accept both sides,4,4,0.8462
+"
+@@ -889,8 +929,7 @@ public class SolidityFunctionWrapper extends Generator {
+     }
+ 
+     private void buildTupleResultContainer(
+-            MethodSpec.Builder methodBuilder, ParameterizedTypeName tupleType)
+-            throws ClassNotFoundException {
++            MethodSpec.Builder methodBuilder, ParameterizedTypeName tupleType) {
+ 
+         List<TypeName> typeArguments = tupleType.typeArguments;","
+@@ -889,30 +917,53 @@ public class SolidityFunctionWrapper extends Generator {
+     }
+ 
+     private void buildTupleResultContainer(
+-            MethodSpec.Builder methodBuilder, ParameterizedTypeName tupleType)
++            MethodSpec.Builder methodBuilder, ParameterizedTypeName tupleType, 
++            List<TypeName> outputParameterTypes)
+             throws ClassNotFoundException {
+ 
+         List<TypeName> typeArguments = tupleType.typeArguments;",D I vs. U I(Java code),accept both sides,10,11,0.9474
+"
+@@ -414,4 +414,7 @@ public interface UndertowMessages {
+     @Message(id = 128, value = ""Remote peer closed connection before all data could be read"")
+     IOException couldNotReadContentLengthData();
+ 
++    @Message(id = 129, value = ""Failed to send after being safe to send"")
++    IllegalStateException failedToSendAfterBeingSafe();
++
+ }","
+@@ -414,4 +414,6 @@ public interface UndertowMessages {
+     @Message(id = 128, value = ""Remote peer closed connection before all data could be read"")
+     IOException couldNotReadContentLengthData();
+ 
++    @Message(id = 129, value = ""HTTP reason phrase was too large for the buffer. Either provide a smaller message or a bigger buffer. Phrase: %s"")
++    IllegalStateException reasonPhraseToLargeForBuffer(String phrase);
+ }",I vs. I,other,9,8,0.4318
+"
+--- a/changelog.md
++++ b/changelog.md
+@@ -1,8 +1,16 @@
+ Changelog
+ ---------
+ 
++### 2.1.11 (2016-02-18)
++- Bugfix and Minor improvement release:
++  + Depluralization for `add*` and `put*` methods enabled with `Style(depluralize, depluralizeDictionary)`
++  + Fixed regression while using `java.util.Optional*` with `Builder.Factory` caused by auto-unboxing to nullable fields in 2.1.9
++  + Improved handling for some internal problems in the processor
++- Thanks to contributors and issue reporters!
++- [Issues](https://github.com/immutables/immutables/issues?q=milestone%3A2.1.11)
++","
+@@ -1,8 +1,16 @@
+ Changelog
+ ---------
+ 
++### 2.1.11 (2016-02-18)
++- Bugfix and Minor improvement release:
++  + Depluralization for `add*` and `put*` methods enabled with `Style(depluralize, depluralizeDictionary)`
++  + Fixed regression for using `java.util.Optional*` with `Builder.Factory` caused by autounboxing
++  + Improved handling for some internal problems in the processor
++- Thanks to contributors and issue reporters!
++- [Issues](https://github.com/immutables/immutables/issues?q=milestone%3A2.1.11)",I vs. I(.md),only left,15,12,0.8393
+"
+@@ -27,6 +30,6 @@ import java.lang.annotation.*;
+ @Target(ElementType.METHOD)
+ public @interface Unroll {
+   // to ensure best possible tool support, we use the same default naming
+-  // scheme as JUnit's @Parameterized
+-  String value() default """";
++  // scheme as Junit's @Parameterized
++  Class<? extends Closure> value() default Closure.class;
+ }","
+@@ -28,5 +28,5 @@ import java.lang.annotation.*;
+ public @interface Unroll {
+   // to ensure best possible tool support, we use the same default naming
+   // scheme as JUnit's @Parameterized
+-  String value() default """";
++  String value() default ""#featureName[#iterationCount]"";
+ }",D I vs. D I(Java code),only left,10,8,0.7647
+"
+--- a/README.md
++++ /dev/null","
+--- a/README.md
++++ b/README.md",D vs. U (.md file deletion vs. update),only left,3,3,0.5
+"
+@@ -38,7 +37,6 @@ import static org.junit.Assert.*;
+  */
+ public class LocationIndexTreeTest extends AbstractLocationIndexTester
+ {
+-
+     protected final EncodingManager encodingManager = new EncodingManager(""CAR"");
+ 
+     @Override","
+@@ -38,8 +38,7 @@ import static org.junit.Assert.*;
+  */
+ public class LocationIndexTreeTest extends AbstractLocationIndexTester
+ {
+-
+-    protected final EncodingManager encodingManager = new EncodingManager(""CAR"");
++    protected final EncodingManager encodingManager = new EncodingManager(""car"");
+ 
+     @Override",D vs. D U,only right,9,10,1.0
+"
+@@ -6,7 +6,7 @@
+     <parent>
+         <groupId>me.chanjar</groupId>
+         <artifactId>weixin-java-parent</artifactId>
+-        <version>1.1.0-SNAPSHOT</version>
++        <version>1.1.1-SNAPSHOT</version>
+     </parent>
+     <artifactId>weixin-java-mp</artifactId>
+     <name>WeiXin Java Tools - MP</name>","
+@@ -6,7 +6,7 @@
+     <parent>
+         <groupId>me.chanjar</groupId>
+         <artifactId>weixin-java-parent</artifactId>
+-        <version>1.1.0-SNAPSHOT</version>
++        <version>1.1.0</version>
+     </parent>
+     <artifactId>weixin-java-mp</artifactId>
+     <name>WeiXin Java Tools - MP</name>","U vs. U (xml, version no) L > R version",only left,10,10,1.0
+"
+         </dependency>
+ 
+-        <dependency>
+-            <groupId>org.apache.dubbo</groupId>
+-            <artifactId>dubbo-metadata-report-api</artifactId>
+-        </dependency>
++        <!--<dependency>-->
++            <!--<groupId>org.apache.dubbo</groupId>-->
++            <!--<artifactId>dubbo-metadata-report-api</artifactId>-->
++        <!--</dependency>-->
+ 
+         <dependency>","
+         </dependency>
+ 
+-        <dependency>
+-            <groupId>org.apache.dubbo</groupId>
+-            <artifactId>dubbo-metadata-report-api</artifactId>
+-        </dependency>
+-
+         <dependency>",U vs. D,only right,13,9,1.0
+"
+@@ -2,7 +2,7 @@
+ <classpath>
+         <classpathentry kind=""src"" path=""src/main/java""/>
+         <classpathentry kind=""con"" path=""org.eclipse.ajdt.core.ASPECTJRT_CONTAINER""/>
+-        <classpathentry kind=""con"" path=""org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.launching.macosx.MacOSXType/Java SE 7 [1.7.0_21]""/>
++        <classpathentry kind=""con"" path=""org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.launching.macosx.MacOSXType/Java SE 7 [1.7.0_51]""/>
+         <classpathentry kind=""lib"" path=""code.jar""/>
+         <classpathentry kind=""lib"" path=""lib/cglib-nodep-2.2.jar""/>
+         <classpathentry kind=""lib"" path=""/springloaded/lib/asm-3.2.jar""/>","
+@@ -1,11 +1,10 @@
+ <?xml version=""1.0"" encoding=""UTF-8""?>
+ <classpath>
+         <classpathentry kind=""src"" path=""src/main/java""/>
+-        <classpathentry kind=""con"" path=""org.eclipse.ajdt.core.ASPECTJRT_CONTAINER""/>
+-        <classpathentry kind=""con"" path=""org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.launching.macosx.MacOSXType/Java SE 7 [1.7.0_21]""/>
+         <classpathentry kind=""lib"" path=""code.jar""/>
+         <classpathentry kind=""lib"" path=""lib/cglib-nodep-2.2.jar""/>
+         <classpathentry kind=""lib"" path=""/springloaded/lib/asm-3.2.jar""/>
+         <classpathentry kind=""lib"" path=""/springloaded/lib/asm-tree-3.2.jar""/>
++        <classpathentry kind=""con"" path=""org.eclipse.jdt.launching.JRE_CONTAINER""/>
+         <classpathentry kind=""output"" path=""bin""/>
+ </classpath>",U vs. D(.classpath),only right,10,14,0.7778
+"
+--- /dev/null
++++ b/product-ms/src/main/resources/bootstrap.yml
+@@ -0,0 +1,53 @@
++server:
++  port: 8040
++management:
++  port: 10912
++  context-path: '/78d504ff-82e8-4a87-82e8-724d72d1171b'
++eureka:
++  client:
++    service-url:
++      defaultZone: 'http://peer1:8763/eureka/,http://peer2:8762/eureka/'
++  instance:
++    metadata-map:
++      cluster: prontera
++      management:
++        port: ${management.port}
++        context-path: ${management.context-path}
++      health:
++        path: ${management.context-path}/health
++    status-page-url-path: ${management.context-path}/info
++    health-check-url-path: ${management.context-path}/health
++    prefer-ip-address: false
++spring:
++  application:
++    name: 'product'
++  datasource:
++    username: chris
++    password: 123123
++    url: 'jdbc:mysql://prontera/product?useLegacyDatetimeCode=false&serverTimezone=Asia/Hong_Kong&useSSL=false'
++  rabbitmq:
++    host: prontera
++    username: chris
++    password: 123123
++    virtual-host: prontera
++    listener:
++      retry:
++        enabled: true
++    template:
++      retry:
++        enabled: true
++  cloud:
++    loadbalancer:
++      retry:
++        enabled: true
++    config:
++      discovery:
++        enabled: true
++        service-id: 'config-server'
++      fail-fast: true
++encrypt:
++  key: '*&3loa#@9no_0*(!'
++mybatis:
++  type-handlers-package: 'com.github.prontera.domain.type.handler'
++  mapper-locations: 'classpath*:mapper/**/*Mapper.xml'
++  type-aliases-package: 'com.github.prontera.domain'","
+--- /dev/null
++++ b/product-ms/src/main/resources/bootstrap.yml
+@@ -0,0 +1,57 @@
++server:
++  port: 8040
++management:
++  port: 10912
++  context-path: '/78d504ff-82e8-4a87-82e8-724d72d1171b'
++eureka:
++  client:
++    service-url:
++      defaultZone: 'http://peer1:8763/eureka/,http://peer2:8762/eureka/'
++  instance:
++    metadata-map:
++      cluster: prontera
++      management:
++        port: ${management.port}
++        context-path: ${management.context-path}
++      health:
++        path: ${management.context-path}/health
++    status-page-url-path: ${management.context-path}/info
++    health-check-url-path: ${management.context-path}/health
++    prefer-ip-address: false
++spring:
++  application:
++    name: 'product'
++  datasource:
++    username: chris
++    password: 123123
++    url: 'jdbc:mysql://prontera/product?useLegacyDatetimeCode=false&serverTimezone=Asia/Hong_Kong&useSSL=false'
++  rabbitmq:
++    host: prontera
++    username: chris
++    password: 123123
++    virtual-host: prontera
++    listener:
++      retry:
++        enabled: true
++    template:
++      retry:
++        enabled: true
++  cloud:
++    loadbalancer:
++      retry:
++        enabled: true
++    config:
++      discovery:
++        enabled: true
++        service-id: 'config-server'
++      fail-fast: true
++encrypt:
++  key: '*&3loa#@9no_0*(!'
++mybatis:
++  type-handlers-package: 'com.github.prontera.domain.type.handler'
++  mapper-locations: 'classpath*:mapper/**/*Mapper.xml'
++  type-aliases-package: 'com.github.prontera.domain'
++flyway:
++  enabled: true
++  baseline-on-migrate: true
++  validate-on-migrate: false",I vs. I (insert the same named .yml files),only right,57,61,0.9457
+"
+@@ -153,12 +151,10 @@ public class StdDateFormat
+     /** 
+      * Whether the TZ offset must be formatted with a colon between hours and minutes ({@code HH:mm} format)
+      *<p>
+-     * Defaults to {@code false} for backwards compatibility reasons
+-     *
+-     * @since 2.9.1
++     * NOTE: default changed to `true` in Jackson 3.0; was `false` earlier.
+      */
+-    private boolean _tzSerializedWithColon = false;
+-    
++    protected boolean _tzSerializedWithColon = true;
++
+     /*
+     /**********************************************************
+     /* Life cycle, accessing singleton ""standard"" formats","
+@@ -158,7 +158,7 @@ public class StdDateFormat
+      * @since 2.9.1
+      */
+     private boolean _tzSerializedWithColon = false;
+-    
++
+     /*
+     /**********************************************************
+     /* Life cycle, accessing singleton ""standard"" formats",U vs. D I,only left,17,10,0.2917
+"
+@@ -42,28 +42,33 @@
+             <version>3.3.1</version>
+         </dependency>
+         <dependency>
+-            <groupId>org.json</groupId>
+-            <artifactId>json</artifactId>
+-            <version>20141113</version>
++            <groupId>com.google.code.gson</groupId>
++            <artifactId>gson</artifactId>
++            <version>2.5</version>
++            <type>jar</type>
++        </dependency>
++        <dependency>
++            <groupId>com.google.guava</groupId>
++            <artifactId>guava</artifactId>
++            <version>19.0-rc2</version>
+         </dependency>","
+@@ -44,7 +44,7 @@
+         <dependency>
+             <groupId>org.json</groupId>
+             <artifactId>json</artifactId>
+-            <version>20141113</version>
++            <version>20140107</version>
+         </dependency>
+ 
+         <!-- Dependencies from jitpack.io -->",U I vs. U (xml),only left,18,10,0.3333
+"
+--- a/processor/src/main/resources/org/mapstruct/ap/internal/model/assignment/UpdateNullCheckWrapper.ftl
++++ /dev/null","
+--- a/processor/src/main/resources/org/mapstruct/ap/internal/model/assignment/UpdateNullCheckWrapper.ftl
++++ b/processor/src/main/resources/org/mapstruct/ap/internal/model/assignment/UpdateNullCheckWrapper.ftl
+",D vs. U (delete vs. update .ftl file),only left,3,3,0.8125
+"
+@@ -208,6 +208,10 @@ public class VoldemortAdminTool {
+         parser.accepts(""backup-incremental"",
+                        ""Perform an incremental backup for point-in-time recovery.""
+                                + "" By default backup has latest consistent snapshot."");
++        parser.accepts(""zone"", ""zone id"")
++              .withRequiredArg()
++              .describedAs(""zone-id"")
++              .ofType(Integer.class);
+ 
+         OptionSet options = parser.parse(args);","
+@@ -208,6 +208,14 @@ public class VoldemortAdminTool {
+         parser.accepts(""backup-incremental"",
+                        ""Perform an incremental backup for point-in-time recovery.""
+                                + "" By default backup has latest consistent snapshot."");
++        parser.accepts(""rollback"", ""rollback a store"")
++              .withRequiredArg()
++              .describedAs(""store-name"")
++              .ofType(String.class);
++        parser.accepts(""version"", ""Push version of store to rollback to"")
++              .withRequiredArg()
++              .describedAs(""version"")
++              .ofType(Long.class);
+ 
+         OptionSet options = parser.parse(args);",I vs. I (Java code),accept both sides,11,15,0.675
+"
+@@ -29,6 +29,7 @@ import org.apache.maven.plugin.MojoExecutionException;
+ import org.apache.maven.plugin.logging.Log;
+ 
+ import java.io.IOException;
++import java.util.List;
+ 
+ import static com.google.common.base.Strings.isNullOrEmpty;","
+@@ -24,11 +24,16 @@ package com.spotify.docker;
+ import com.spotify.docker.client.AnsiProgressHandler;
+ import com.spotify.docker.client.DockerClient;
+ import com.spotify.docker.client.DockerException;
++import com.spotify.docker.client.ProgressHandler;
++import com.spotify.docker.client.messages.ProgressMessage;
+ 
+ import org.apache.maven.plugin.MojoExecutionException;
+ import org.apache.maven.plugin.logging.Log;
+ 
+ import java.io.IOException;
++import java.nio.file.Files;
++import java.nio.file.Path;
++import java.nio.file.Paths;
+ 
+ import static com.google.common.base.Strings.isNullOrEmpty;",I vs. I (import),accept both sides,8,17,0.5143
+"
+             case Command.TYPE_SET_TIMEZONE:
+-                return formatTextCommand(channel, command, ""LZ,,{%s}"", Command.KEY_TIMEZONE);
++                return formatTextCommand(channel, command, ""LZ,{%s},{%s}"", Command.KEY_LANGUAGE, Command.KEY_TIMEZONE);
+             case Command.TYPE_SET_INDICATOR:","
+             case Command.TYPE_SET_TIMEZONE:
+-                return formatTextCommand(channel, command, ""LZ,,{%s}"", Command.KEY_TIMEZONE);
++                return formatTextCommand(channel, command, ""LZ,,%s"", Command.KEY_TIMEZONE);",U vs. U,other,5,4,0.8182
+"
++        }
++
++        /**
++         * 对ctb的格式进行预处理，去掉尖括号注释信息，只保留圆括号里的内容
++         * @param file 文件名
++         * @throws IOException
++         * 下午5:34:24
++         */
++        private static void clean(String file) throws IOException {","
++        }
++
++        /**
++         * @param str
++         * 下午5:12:24
++         * @throws IOException 
++         */
++        private static void clean(String file) throws IOException {",I vs. I,only left,10,9,0.8182
+"
+                 try {
+                         transaction.commit();
+-                } catch (SecurityException e) {
+-                        // TODO Auto-generated catch block
+-                        e.printStackTrace();
+-                } catch (IllegalStateException e) {
+-                        // TODO Auto-generated catch block
+-                        e.printStackTrace();
+-                } catch (RollbackException e) {
+-                        // TODO Auto-generated catch block
+-                        e.printStackTrace();
+-                } catch (HeuristicMixedException e) {
+-                        // TODO Auto-generated catch block
+-                        e.printStackTrace();
+-                } catch (HeuristicRollbackException e) {
+-                        // TODO Auto-generated catch block
+-                        e.printStackTrace();
+-                } catch (SystemException e) {
+-                        // TODO Auto-generated catch block
+-                        e.printStackTrace();
++                        transactionRepository.removeErrorTransaction(globalXid);
++                        transactionRepository.removeTransaction(globalXid);
++                } catch (SecurityException ex) {","
+                 try {
+                         transaction.commit();
+-                } catch (SecurityException e) {
+-                        // TODO Auto-generated catch block
+-                        e.printStackTrace();
+-                } catch (IllegalStateException e) {
+-                        // TODO Auto-generated catch block
+-                        e.printStackTrace();
+-                } catch (RollbackException e) {
+-                        // TODO Auto-generated catch block
+-                        e.printStackTrace();
+-                } catch (HeuristicMixedException e) {
+-                        // TODO Auto-generated catch block
+-                        e.printStackTrace();
+-                } catch (HeuristicRollbackException e) {
+-                        // TODO Auto-generated catch block
+-                        e.printStackTrace();
+-                } catch (SystemException e) {
+-                        // TODO Auto-generated catch block
+-                        e.printStackTrace();
++                } catch (SecurityException ex) {",D I vs. D I,only left,24,22,0.8095
+"
+--- /dev/null
++++ b/vagrant/bk.sh
+@@ -0,0 +1,86 @@
++#!/bin/bash
++# Licensed to the Apache Software Foundation (ASF) under one or more","
+--- /dev/null
++++ b/vagrant/bk.sh
+@@ -0,0 +1,62 @@
++# Licensed to the Apache Software Foundation (ASF) under one or more",I vs. I (.sh) L includes R,only left,6,5,0.8947
+"
+@@ -814,8 +897,97 @@ spring:
+             statuses: BAD_GATEWAY
+ ----
+ 
++NOTE: The retry filter does not currently support retrying with a body (e.g. for POST or PUT requests with a body).
++
+ NOTE: When using the retry filter with a `forward:` prefixed URL, the target endpoint should be written carefully so that in case of an error it does not do anything that could result in a response being sent to the client and committed. For example, if the target endpoint is an annotated controller, the target controller method should not return `ResponseEntity` with an error status code. Instead it should throw an `Exception`, or signal an error, e.g. via a `Mono.error(ex)` return value, which the retry filter can be configured to handle by retrying.
+ 
++=== RequestSize GatewayFilter Factory
++The RequestSize GatewayFilter Factory can restrict a request from reaching the downstream service , when the request size is greater than the permissible limit. The filter takes `RequestSize` as parameter which is the permissible size limit of the request defined in bytes.
+…","
+@@ -816,6 +820,22 @@ spring:
+ 
+ NOTE: When using the retry filter with a `forward:` prefixed URL, the target endpoint should be written carefully so that in case of an error it does not do anything that could result in a response being sent to the client and committed. For example, if the target endpoint is an annotated controller, the target controller method should not return `ResponseEntity` with an error status code. Instead it should throw an `Exception`, or signal an error, e.g. via a `Mono.error(ex)` return value, which the retry filter can be configured to handle by retrying.
+ 
++=== Default Filters
++
++If you would like to add a filter and apply it to all routes you can use `spring.cloud.gateway.default-filters`.
++This property takes a list of filters",I vs. I,accept both sides,12,9,0.6239
+"
+@@ -147,6 +147,7 @@ public class DeepLearningProstateTest extends TestUtil {
+                                       }
+ 
+                                       model1 = UKV.get(dest_tmp);
++                                      Assert.assertTrue(p.train_samples_per_iteration <= 0 || model1.epoch_counter > epochs || Math.abs(model1.epoch_counter - epochs)/epochs < 0.1);
+ 
+                                       if (n_folds != 0)
+                                       // test HTML of cv models
+","
+@@ -147,6 +147,8 @@ public class DeepLearningProstateTest extends TestUtil {
+                                       }
+ 
+                                       model1 = UKV.get(dest_tmp);
++                                      assert( ((p.train_samples_per_iteration <= 0 || p.train_samples_per_iteration >= frame.numRows()) && model1.epoch_counter > epochs)
++                                              || Math.abs(model1.epoch_counter - epochs)/epochs < 0.20 );
+ 
+                                       if (n_folds != 0)
+                                       // test HTML of cv models",I vs. I,only right,9,10,0.8846
+"
+@@ -1,55 +1,22 @@
++#Wed, 18 Jun 2014 21:38:15 +0200
+ app.icon=branding/core/core.jar/org/netbeans/core/startup/frame48.gif","
+@@ -1,3 +1,4 @@
++#Tue, 29 Apr 2014 15:43:20 +0200
+ app.icon=branding/core/core.jar/org/netbeans/core/startup/frame48.gif",I vs. I (.properties),only left,4,4,0.7143
+"
+@@ -13,6 +13,8 @@
+  */
+ package org.jctools.queues.atomic;
+ 
++import org.jctools.queues.MessagePassingQueue;
++","
+@@ -13,29 +13,44 @@
+  */
+ package org.jctools.queues.atomic;
+ 
++import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
++import java.util.concurrent.atomic.AtomicLongFieldUpdater;
++import org.jctools.queues.MessagePassingQueue;
++import org.jctools.queues.MessagePassingQueue.Supplier;
++import org.jctools.queues.MessagePassingQueueUtil;
++import org.jctools.queues.QueueProgressIndicators;
++import org.jctools.queues.IndexedQueueSizeUtil;
++import static org.jctools.queues.atomic.LinkedAtomicArrayQueueUtil.*;
++import java.util.concurrent.atomic.AtomicReferenceArray;
+import org.jctools.queues.MpmcArrayQueue;
+
+/**
+ * NOTE: This class was automatically generated by org.jctools.queues.atomic.JavaParsingAtomicLinkedQueueGenerator","I vs. I (import, R includes L)",only right,7,18,0.25

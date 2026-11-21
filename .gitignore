@@ -1,0 +1,22 @@
+# Sensitive / local-only files
+# --------------------------------
+# Environment variables (API keys, passwords, etc.)
+.env
+# Virtual environment directory
+venv/
+# Python byte‑code caches
+__pycache__/
+*.pyc
+# Jupyter notebooks checkpoints (if any)
+.ipynb_checkpoints/
+
+# Large model artefacts (optional – keep locally, not in repo)
+*.pkl
+
+# OS‑specific files
+Thumbs.db
+.DS_Store
+
+# IDE / editor settings (adjust as needed)
+.vscode/
+.idea/
