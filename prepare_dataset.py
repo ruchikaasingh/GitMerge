@@ -1,6 +1,6 @@
 
 import pandas as pd
-import re
+from features import token_overlap
 
 # Load the real dataset
 df = pd.read_excel(
@@ -42,22 +42,6 @@ def normalize_strategy(value):
         return "accept both sides"
     else:
         return "other"
-
-
-def tokenize(text):
-    """Simple whitespace + punctuation tokenizer for overlap calculation."""
-    return set(re.findall(r"[A-Za-z_][A-Za-z0-9_]*", text.lower()))
-
-
-def token_overlap(left, right):
-    """Jaccard similarity between token sets of left and right code."""
-    left_tokens = tokenize(left)
-    right_tokens = tokenize(right)
-    if not left_tokens and not right_tokens:
-        return 0.0
-    intersection = len(left_tokens & right_tokens)
-    union = len(left_tokens | right_tokens)
-    return round(intersection / union, 4) if union > 0 else 0.0
 
 
 # Compute structural features

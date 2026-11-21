@@ -2,8 +2,11 @@
 # --------------------------------
 # Environment variables (API keys, passwords, etc.)
 .env
+.env.*
+!.env.example
 # Virtual environment directory
 venv/
+.venv/
 # Python byte‑code caches
 __pycache__/
 *.pyc
@@ -20,3 +23,6 @@ Thumbs.db
 # IDE / editor settings (adjust as needed)
 .vscode/
 .idea/
+frontend/node_modules/
+frontend/dist/
+frontend/.env.local

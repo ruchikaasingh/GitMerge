@@ -231,17 +231,3 @@ def resolve_conflict(
     }
 
 
-# ---------------------------------------------------------------------------
-# Legacy shim: keep old analyze_conflict name working so main.py doesn't break
-# during transition
-# ---------------------------------------------------------------------------
-def analyze_conflict(conflict_text: str) -> dict:
-    """
-    Backwards-compatible wrapper. Parses raw git conflict text and resolves.
-    """
-    parsed = parse_git_conflict(conflict_text)
-    return resolve_conflict(
-        left_code=parsed["left_code"],
-        right_code=parsed["right_code"],
-        conflict_text=conflict_text
-    )

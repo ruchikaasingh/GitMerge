@@ -1,0 +1,227 @@
+<div id="merge-review-concept">
+  <style>
+    #merge-review-concept {
+      --mr-ink: light-dark(#202b36, #e8eef5);
+      --mr-muted: light-dark(#667584, #aab6c3);
+      --mr-line: light-dark(#dce3e9, #34414e);
+      --mr-page: light-dark(#f4f7f9, #111820);
+      --mr-surface: light-dark(#ffffff, #1b2530);
+      --mr-soft: light-dark(#edf3f6, #263440);
+      --mr-blue: light-dark(#315f86, #93c5e9);
+      --mr-green: light-dark(#dff2e7, #203a2e);
+      --mr-green-ink: light-dark(#285d3d, #a7e0ba);
+      --mr-amber: light-dark(#f7edcf, #493a1e);
+      --mr-amber-ink: light-dark(#735716, #f0d38b);
+      color: var(--mr-ink);
+      font: 14px/1.45 Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+      max-width: 1060px;
+      margin: 0 auto;
+    }
+    #merge-review-concept * { box-sizing: border-box; }
+    #merge-review-concept .mr-window {
+      overflow: hidden;
+      border: 1px solid var(--mr-line);
+      border-radius: 14px;
+      background: var(--mr-page);
+    }
+    #merge-review-concept .mr-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--mr-line);
+      background: var(--mr-surface);
+    }
+    #merge-review-concept .mr-brand { display: flex; align-items: center; gap: 10px; font-weight: 600; }
+    #merge-review-concept .mr-mark { display: grid; width: 28px; height: 28px; place-items: center; border-radius: 8px; background: var(--mr-soft); color: var(--mr-blue); font-weight: 700; }
+    #merge-review-concept .mr-top-meta { color: var(--mr-muted); font-size: 12px; }
+    #merge-review-concept .mr-layout { display: grid; grid-template-columns: 205px minmax(0, 1fr); min-height: 580px; }
+    #merge-review-concept .mr-side { padding: 20px 12px; border-right: 1px solid var(--mr-line); background: var(--mr-surface); }
+    #merge-review-concept .mr-side-label { margin: 0 10px 10px; color: var(--mr-muted); font-size: 11px; font-weight: 600; letter-spacing: .07em; text-transform: uppercase; }
+    #merge-review-concept .mr-screen-nav { display: grid; gap: 5px; }
+    #merge-review-concept .mr-screen-nav button { width: 100%; padding: 10px; border: 0; border-radius: 8px; background: transparent; color: var(--mr-ink); text-align: left; font: inherit; cursor: pointer; }
+    #merge-review-concept .mr-screen-nav button[aria-selected="true"] { background: var(--mr-soft); color: var(--mr-blue); font-weight: 600; }
+    #merge-review-concept .mr-side-note { margin: 26px 10px 0; color: var(--mr-muted); font-size: 12px; }
+    #merge-review-concept .mr-main { min-width: 0; padding: 24px; }
+    #merge-review-concept .mr-heading { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 14px; margin-bottom: 20px; }
+    #merge-review-concept h2 { margin: 0; font-size: 21px; font-weight: 600; letter-spacing: -.02em; }
+    #merge-review-concept h3 { margin: 0; font-size: 14px; font-weight: 600; }
+    #merge-review-concept p { margin: 5px 0 0; color: var(--mr-muted); }
+    #merge-review-concept .mr-btn { padding: 8px 12px; border: 1px solid var(--mr-line); border-radius: 8px; background: var(--mr-surface); color: var(--mr-ink); font: inherit; cursor: pointer; }
+    #merge-review-concept .mr-btn-primary { border-color: var(--mr-blue); background: var(--mr-blue); color: light-dark(#fff, #13212d); font-weight: 600; }
+    #merge-review-concept .mr-btn[aria-pressed="true"] { outline: 2px solid var(--mr-blue); }
+    #merge-review-concept .mr-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+    #merge-review-concept .mr-pill { display: inline-flex; align-items: center; padding: 4px 8px; border-radius: 999px; background: var(--mr-soft); color: var(--mr-muted); font-size: 12px; }
+    #merge-review-concept .mr-pill-green { background: var(--mr-green); color: var(--mr-green-ink); }
+    #merge-review-concept .mr-pill-amber { background: var(--mr-amber); color: var(--mr-amber-ink); }
+    #merge-review-concept .mr-block { margin-top: 16px; padding: 16px; border: 1px solid var(--mr-line); border-radius: 10px; background: var(--mr-surface); }
+    #merge-review-concept .mr-repo-list { display: grid; gap: 10px; margin-top: 18px; }
+    #merge-review-concept .mr-repo { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; align-items: center; padding: 14px; border: 1px solid var(--mr-line); border-radius: 9px; background: var(--mr-surface); }
+    #merge-review-concept .mr-repo strong { display: block; }
+    #merge-review-concept .mr-repo small { color: var(--mr-muted); }
+    #merge-review-concept .mr-field-row { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 12px; margin-top: 18px; }
+    #merge-review-concept .mr-field { padding: 12px; border-radius: 8px; background: var(--mr-soft); }
+    #merge-review-concept .mr-field span { display: block; color: var(--mr-muted); font-size: 12px; }
+    #merge-review-concept .mr-field strong { display: block; margin-top: 4px; overflow-wrap: anywhere; }
+    #merge-review-concept .mr-table { width: 100%; margin-top: 16px; border-collapse: collapse; text-align: left; }
+    #merge-review-concept .mr-table th, #merge-review-concept .mr-table td { padding: 12px 10px; border-bottom: 1px solid var(--mr-line); vertical-align: middle; }
+    #merge-review-concept .mr-table th { color: var(--mr-muted); font-size: 12px; font-weight: 500; }
+    #merge-review-concept .mr-table code, #merge-review-concept code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; }
+    #merge-review-concept .mr-banner { padding: 12px 14px; border-radius: 8px; background: var(--mr-amber); color: var(--mr-amber-ink); }
+    #merge-review-concept .mr-diff-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 12px; margin-top: 14px; }
+    #merge-review-concept .mr-code-pane { min-width: 0; overflow: hidden; border: 1px solid var(--mr-line); border-radius: 9px; background: var(--mr-surface); }
+    #merge-review-concept .mr-code-title { padding: 9px 12px; border-bottom: 1px solid var(--mr-line); color: var(--mr-muted); font-size: 12px; }
+    #merge-review-concept pre { overflow: auto; margin: 0; padding: 12px; color: var(--mr-ink); font: 12px/1.65 ui-monospace, SFMono-Regular, Menlo, monospace; white-space: pre; }
+    #merge-review-concept .mr-del { display: block; margin: 0 -12px; padding: 0 12px; background: light-dark(#fff0ef, #442c2b); }
+    #merge-review-concept .mr-add { display: block; margin: 0 -12px; padding: 0 12px; background: var(--mr-green); }
+    #merge-review-concept .mr-choice-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+    #merge-review-concept .mr-candidate { margin-top: 12px; border: 1px solid var(--mr-line); border-radius: 9px; background: var(--mr-surface); }
+    #merge-review-concept .mr-candidate pre { white-space: pre-wrap; }
+    #merge-review-concept .mr-footnote { margin-top: 14px; color: var(--mr-muted); font-size: 12px; }
+    #merge-review-concept .mr-eval-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 10px; margin-top: 16px; }
+    #merge-review-concept .mr-eval { padding: 13px; border-radius: 9px; background: var(--mr-soft); }
+    #merge-review-concept .mr-eval strong { display: block; margin-bottom: 6px; }
+    #merge-review-concept .mr-eval span { color: var(--mr-muted); font-size: 12px; }
+    #merge-review-concept [hidden] { display: none !important; }
+    @media (max-width: 700px) {
+      #merge-review-concept .mr-layout { grid-template-columns: 1fr; }
+      #merge-review-concept .mr-side { padding: 10px; border-right: 0; border-bottom: 1px solid var(--mr-line); }
+      #merge-review-concept .mr-screen-nav { grid-template-columns: repeat(2,minmax(0,1fr)); }
+      #merge-review-concept .mr-side-note { display: none; }
+      #merge-review-concept .mr-main { padding: 17px; }
+      #merge-review-concept .mr-diff-grid, #merge-review-concept .mr-eval-grid { grid-template-columns: 1fr; }
+      #merge-review-concept .mr-field-row { grid-template-columns: 1fr; }
+      #merge-review-concept .mr-table th:nth-child(2), #merge-review-concept .mr-table td:nth-child(2) { display: none; }
+    }
+  </style>
+
+  <div class="mr-window">
+    <header class="mr-top">
+      <div class="mr-brand"><span class="mr-mark" aria-hidden="true">M</span> Merge Review Lab</div>
+      <div class="mr-top-meta">Research prototype · human review required · no direct base-branch writes</div>
+    </header>
+    <div class="mr-layout">
+      <aside class="mr-side">
+        <p class="mr-side-label">Walkthrough</p>
+        <nav class="mr-screen-nav" role="tablist" aria-label="Prototype screens">
+          <button id="mr-tab-repo" role="tab" aria-controls="mr-panel-repo" aria-selected="true" type="button">1 · Repository</button>
+          <button id="mr-tab-queue" role="tab" aria-controls="mr-panel-queue" aria-selected="false" type="button">2 · Conflict queue</button>
+          <button id="mr-tab-review" role="tab" aria-controls="mr-panel-review" aria-selected="false" type="button">3 · Review suggestion</button>
+          <button id="mr-tab-study" role="tab" aria-controls="mr-panel-study" aria-selected="false" type="button">4 · Evaluation</button>
+        </nav>
+        <p class="mr-side-note">Example content only. No live GitHub connection or model prediction is running in this concept.</p>
+      </aside>
+
+      <main class="mr-main" aria-live="polite">
+        <section id="mr-panel-repo" role="tabpanel" aria-labelledby="mr-tab-repo">
+          <div class="mr-heading"><div><h2>Choose a repository</h2><p>Start with one repository and one pull request.</p></div><span class="mr-pill mr-pill-green">Read to analyze · write only after approval</span></div>
+          <div class="mr-block">
+            <h3>Connect your GitHub account</h3>
+            <p>Read repository and pull request data for analysis. Request contents write access only if you enable reviewed commits to the pull request branch.</p>
+            <div class="mr-row" style="margin-top:14px"><button class="mr-btn mr-btn-primary" type="button">Connect GitHub</button><span class="mr-footnote">Permissions should be confirmed during app setup.</span></div>
+          </div>
+          <div class="mr-repo-list" aria-label="Example repositories">
+            <div class="mr-repo"><div><strong>acme / inventory-service</strong><small>Java · selected repository</small></div><button class="mr-btn" type="button">Select</button></div>
+            <div class="mr-repo"><div><strong>acme / web-dashboard</strong><small>JavaScript · example</small></div><button class="mr-btn" type="button">Select</button></div>
+          </div>
+          <div class="mr-field-row">
+            <div class="mr-field"><span>Base branch</span><strong><code>main</code></strong></div>
+            <div class="mr-field"><span>Pull request branch</span><strong><code>feature/inventory</code></strong></div>
+          </div>
+          <div class="mr-row" style="margin-top:16px"><button class="mr-btn mr-btn-primary" type="button" data-go="mr-tab-queue">Continue to conflicts</button></div>
+        </section>
+
+        <section id="mr-panel-queue" role="tabpanel" aria-labelledby="mr-tab-queue" hidden>
+          <div class="mr-heading"><div><h2>Pull request conflicts</h2><p>acme / inventory-service · PR #42 · feature/inventory → main</p></div><span class="mr-pill mr-pill-amber">3 files need review</span></div>
+          <div class="mr-row"><span class="mr-pill">Merge state: conflicting</span><span class="mr-pill">Fetched from GitHub</span><span class="mr-pill">No changes written</span></div>
+          <table class="mr-table">
+            <thead><tr><th>File</th><th>Conflict hunks</th><th>Review state</th><th></th></tr></thead>
+            <tbody>
+              <tr><td><code>src/InventoryService.java</code></td><td>2</td><td><span class="mr-pill mr-pill-amber">Needs review</span></td><td><button class="mr-btn" type="button" data-go="mr-tab-review">Open</button></td></tr>
+              <tr><td><code>src/StockRepository.java</code></td><td>1</td><td><span class="mr-pill">Not reviewed</span></td><td><button class="mr-btn" type="button" data-go="mr-tab-review">Open</button></td></tr>
+              <tr><td><code>README.md</code></td><td>1</td><td><span class="mr-pill">Not reviewed</span></td><td><button class="mr-btn" type="button" data-go="mr-tab-review">Open</button></td></tr>
+            </tbody>
+          </table>
+          <p class="mr-footnote">Conflict count and paths above are illustrative. In a real integration, load branch metadata and conflict files through the backend.</p>
+        </section>
+
+        <section id="mr-panel-review" role="tabpanel" aria-labelledby="mr-tab-review" hidden>
+          <div class="mr-heading"><div><h2>Review conflict</h2><p><code>src/InventoryService.java</code> · hunk 1 of 2</p></div><span class="mr-pill">Example prediction</span></div>
+          <div class="mr-banner"><strong>Suggested strategy: Keep incoming side.</strong> This is a model prediction, not a correctness guarantee. Compare both changes before choosing.</div>
+          <div class="mr-diff-grid">
+            <div class="mr-code-pane"><div class="mr-code-title">Base branch · main</div><pre>public int available(int sku) {
+    return stock.get(sku);
+}</pre></div>
+            <div class="mr-code-pane"><div class="mr-code-title">Pull request · feature/inventory</div><pre><span class="mr-del">- public int available(int sku) {</span><span class="mr-add">+ public Optional&lt;Integer&gt; available(int sku) {</span><span class="mr-add">+     return Optional.ofNullable(stock.get(sku));</span><span class="mr-del">-     return stock.get(sku);</span><span class="mr-add">+ }</span><span class="mr-del">- }</span></pre></div>
+          </div>
+          <div class="mr-block">
+            <div class="mr-row" style="justify-content:space-between"><h3>Choose what to do</h3><span class="mr-pill mr-pill-amber">You decide</span></div>
+            <div class="mr-choice-row" role="group" aria-label="Resolution choice">
+              <button class="mr-btn" type="button" aria-pressed="false">Keep base</button>
+              <button class="mr-btn" type="button" aria-pressed="true">Keep incoming</button>
+              <button class="mr-btn" type="button" aria-pressed="false">Combine / edit</button>
+              <button class="mr-btn" type="button" aria-pressed="false">Defer</button>
+            </div>
+            <div class="mr-candidate"><div class="mr-code-title">Candidate preview · not applied</div><pre>public Optional&lt;Integer&gt; available(int sku) {
+    return Optional.ofNullable(stock.get(sku));
+}</pre></div>
+            <div class="mr-row" style="margin-top:12px"><button class="mr-btn" type="button">Save review decision</button><button class="mr-btn" type="button">Preview full patch</button><button class="mr-btn mr-btn-primary" type="button">Confirm &amp; push commit to PR branch</button></div>
+          </div>
+          <p class="mr-footnote">After confirmation, the backend would apply the reviewed patch in an isolated checkout, create a commit on the PR source branch, and refresh the PR. It must stop if the branch changed or GitHub permissions/protection rules block the update. The mockup does not perform this action.</p>
+        </section>
+
+        <section id="mr-panel-study" role="tabpanel" aria-labelledby="mr-tab-study" hidden>
+          <div class="mr-heading"><div><h2>Evaluation workspace</h2><p>Use the same conflict cases across conditions; record outcomes without implying a result in advance.</p></div><span class="mr-pill">Research view</span></div>
+          <div class="mr-eval-grid">
+            <div class="mr-eval"><strong>Manual review</strong><span>Participant sees the two sides and resolves the conflict.</span></div>
+            <div class="mr-eval"><strong>Model suggestion</strong><span>Participant sees the same diff plus the predicted strategy.</span></div>
+            <div class="mr-eval"><strong>Measure</strong><span>Correctness, review time, decision, and confidence.</span></div>
+          </div>
+          <div class="mr-block">
+            <h3>Report only measured results</h3>
+            <table class="mr-table">
+              <thead><tr><th>Outcome</th><th>Manual condition</th><th>Suggestion condition</th></tr></thead>
+              <tbody><tr><td>Resolution matches reference</td><td>—</td><td>—</td></tr><tr><td>Time per conflict</td><td>—</td><td>—</td></tr><tr><td>Reviewer confidence</td><td>—</td><td>—</td></tr></tbody>
+            </table>
+            <p class="mr-footnote">No participants or measurements are represented here. Define the protocol and obtain supervisor/ethics approval before collecting study data.</p>
+          </div>
+          <div class="mr-block"><h3>Dataset provenance</h3><p>Record the dataset name, version, license, filtering rules, and train/test split. Do not describe ConflictBench as your dataset or claim a new benchmark if you are reusing it.</p></div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <script>
+    (() => {
+      const root = document.getElementById("merge-review-concept");
+      const tabs = [...root.querySelectorAll('[role="tab"]')];
+      const panels = [...root.querySelectorAll('[role="tabpanel"]')];
+      function showTab(tab) {
+        tabs.forEach((item) => {
+          const active = item === tab;
+          item.setAttribute("aria-selected", String(active));
+          item.tabIndex = active ? 0 : -1;
+        });
+        panels.forEach((panel) => { panel.hidden = panel.id !== tab.getAttribute("aria-controls"); });
+      }
+      tabs.forEach((tab, index) => tab.addEventListener("click", () => showTab(tab)));
+      tabs.forEach((tab, index) => tab.addEventListener("keydown", (event) => {
+        if (event.key === "ArrowRight" || event.key === "ArrowLeft") {
+          event.preventDefault();
+          const offset = event.key === "ArrowRight" ? 1 : -1;
+          const next = tabs[(index + offset + tabs.length) % tabs.length];
+          showTab(next);
+          next.focus();
+        }
+      }));
+      root.querySelectorAll("[data-go]").forEach((button) => button.addEventListener("click", () => {
+        const target = root.querySelector(`#${button.dataset.go}`);
+        if (target) { showTab(target); target.focus(); }
+      }));
+      root.querySelectorAll('.mr-choice-row button').forEach((button) => button.addEventListener("click", () => {
+        root.querySelectorAll('.mr-choice-row button').forEach((item) => item.setAttribute("aria-pressed", String(item === button)));
+      }));
+    })();
+  </script>
+</div>
